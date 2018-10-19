@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
     maxGTIDLength = 9;
     cardSwipeTimeMilliseconds = 500;
     messageDurationMilliseconds = 2000;
+    csvRegex = /.*\.csv$/gm;
 
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
@@ -51,9 +52,21 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    initializeApp() {
+    initializeApp(filesInput: FileList) {
         const component = this;
-        component.showMessage('TODO: Read in CSV and start app');
+        const targetRosterFile = filesInput[0];
+        if (targetRosterFile && component.csvRegex.test(targetRosterFile.name)) {
+            const fileReader = new FileReader();
+            fileReader.readAsText(targetRosterFile, "UTF-8");
+            fileReader.onload = function (evt) {
+                console.log(fileReader.result);
+            };
+            fileReader.onerror = function (evt) {
+                component.showMessage('Unable to read roster csv file');
+            }
+        } else {
+            component.showMessage('Please select a csv file');
+        }
     }
 
     showMessage(message: string) {

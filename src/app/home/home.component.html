@@ -2,18 +2,15 @@
     <div class="row" *ngIf="!appInitialized">
         <div class="col-xs-12" id="init-app-container">
             <mat-card id="init-app-card">
-                <h1 class="main-header">Create Office Hours Queue</h1>
-                <b>Select roster csv file</b>
-                <br>
-                <input type="file">
-                <br>
-                <br>
+                <h1 class="init-main-header">Create Office Hours Queue</h1>
                 <form>
                     <mat-form-field>
                         <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className">
                     </mat-form-field>
                 </form>
-                <button mat-raised-button color="primary" (click)="initializeApp()">Start Queue</button>
+                <b>Select roster csv file</b>
+                <br>
+                <input type="file" #file (change)="initializeApp(file.files)">
             </mat-card>
         </div>
     </div>
