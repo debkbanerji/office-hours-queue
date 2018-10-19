@@ -10,6 +10,7 @@ import {MatSnackBar} from "@angular/material";
 export class HomeComponent implements OnInit {
 
     maxGTIDLength = 9;
+    GTIDRegex = /9(\d{8})/gm;
     cardSwipeTimeMilliseconds = 500;
     messageDurationMilliseconds = 2000;
     csvRegex = /.*\.csv$/gm;
@@ -47,8 +48,10 @@ export class HomeComponent implements OnInit {
     checkForCardSwipe() {
         const component = this;
         if (component.appInitialized && Date.now() - component.digitKeypressTimestampBuffer[0] < component.cardSwipeTimeMilliseconds) {
-            const inputGTID = component.digitKeypressBuffer.join('');
-            console.log(inputGTID);
+            const inputGTID = component.digitKeypressBuffer.join('').toString();
+            if (component.GTIDRegex.test(inputGTID)) {
+                console.log(inputGTID);
+            }
         }
     }
 
