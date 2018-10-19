@@ -21,3 +21,20 @@
 #init-app-card {
     width: 100%;
 }
+
+#progress {
+    text-align: center;
+}
+
+#progress-pad {
+    height: 40vh;
+}
+
+#progress-spinner {
+    display: inline-block;
+}
+
+#progress-spinner {
+    margin: auto;
+    display: block;
+}

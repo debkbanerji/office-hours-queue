@@ -1,5 +1,5 @@
 <div [ngClass]="{'dark-theme': isDarkTheme}" class="main-content-container">
-    <div class="row" *ngIf="!appInitialized">
+    <div class="row" *ngIf="!appInitialized && !isInitializing">
         <div class="col-xs-12" id="init-app-container">
             <mat-card id="init-app-card">
                 <h1 class="init-main-header">Create Office Hours Queue</h1>
@@ -13,6 +13,10 @@
                 <input type="file" #file (change)="initializeApp(file.files)">
             </mat-card>
         </div>
+    </div>
+    <div *ngIf="!appInitialized && isInitializing" id="progress-container">
+        <div id="progress-pad"></div>
+        <mat-progress-spinner mode="indeterminate" id="progress-spinner"></mat-progress-spinner>
     </div>
     <div class="row" *ngIf="appInitialized">
         <div class="col-xs-12">
