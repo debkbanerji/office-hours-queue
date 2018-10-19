@@ -9,9 +9,10 @@ import {environment} from "../../environments/environment";
 export class HomeComponent implements OnInit {
 
     maxGTIDLength = 9;
-    cardSwipeTimeMilliseconds = 2000;
+    cardSwipeTimeMilliseconds = 500;
 
     version = environment.VERSION;
+    isDarkTheme: boolean = false; // TODO: Add toggle
 
     digitKeypressBuffer = [];
     digitKeypressTimestampBuffer = [];

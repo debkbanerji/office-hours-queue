@@ -26,6 +26,12 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 .main-content-container {
     min-width: 100vw;
     min-height: 100vh;
+    overflow: visible;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 input {
