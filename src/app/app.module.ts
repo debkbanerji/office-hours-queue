@@ -3,7 +3,9 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from './home/home.component';
-import {MatCardModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule} from "@angular/material";
+import {FormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -17,7 +19,13 @@ const routes: Routes = [
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatButtonModule,
         MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSnackBarModule,
         RouterModule.forRoot(routes)
     ],
     providers: [],

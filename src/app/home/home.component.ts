@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
     selector: 'app-home',
@@ -10,14 +11,18 @@ export class HomeComponent implements OnInit {
 
     maxGTIDLength = 9;
     cardSwipeTimeMilliseconds = 500;
+    messageDurationMilliseconds = 2000;
 
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
 
+    appInitialized: boolean = false;
     digitKeypressBuffer = [];
     digitKeypressTimestampBuffer = [];
 
-    constructor() {
+    className: string = null;
+
+    constructor(public snackBar: MatSnackBar) {
     }
 
     ngOnInit() {
@@ -40,9 +45,21 @@ export class HomeComponent implements OnInit {
 
     checkForCardSwipe() {
         const component = this;
-        if (Date.now() - component.digitKeypressTimestampBuffer[0] < component.cardSwipeTimeMilliseconds) {
+        if (component.appInitialized && Date.now() - component.digitKeypressTimestampBuffer[0] < component.cardSwipeTimeMilliseconds) {
             const inputGTID = component.digitKeypressBuffer.join('');
             console.log(inputGTID);
         }
+    }
+
+    initializeApp() {
+        const component = this;
+        component.showMessage('TODO: Read in CSV and start app');
+    }
+
+    showMessage(message: string) {
+        const component = this;
+        component.snackBar.open(message, null, {
+            duration: component.messageDurationMilliseconds,
+        });
     }
 }
