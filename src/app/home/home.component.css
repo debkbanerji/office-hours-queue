@@ -38,3 +38,15 @@
     margin: auto;
     display: block;
 }
+
+.student-card {
+    width: 100%;
+}
+
+.student-queue-container {
+    width: 66%;
+}
+
+.ta-duty-container {
+    width: 33%;
+}

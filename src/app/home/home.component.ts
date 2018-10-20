@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {MatSnackBar} from "@angular/material";
-import {conditionallyCreateMapObjectLiteral} from "@angular/compiler/src/render3/view/util";
 
 @Component({
     selector: 'app-home',
@@ -16,7 +15,7 @@ export class HomeComponent implements OnInit {
     messageDurationMilliseconds = 2000;
     csvRegex = /.*\.csv$/gim;
     studentRegex = /student/gim;
-    taRegex = /student/gim;
+    taRegex = /ta/gim;
 
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
@@ -60,7 +59,54 @@ export class HomeComponent implements OnInit {
             const inputGTID = component.digitKeypressBuffer.join('').toString();
             if (component.GTIDRegex.test(inputGTID)) {
                 console.log(inputGTID);
+                if (component.studentDirectory[inputGTID]) {
+                    component.handleStudentSwipe(inputGTID);
+                } else if (component.taDirectory[inputGTID]) {
+                    component.handleTASwipe(inputGTID);
+                } else {
+                    component.showMessage('GTID not recognized');
+                }
             }
+        }
+    }
+
+    handleTASwipe(gtid: string) {
+        const component = this;
+        let taIndex = -1;
+        for (let i = 0; i < component.taDutyQueue.length; i++) {
+            if (component.taDutyQueue[i].gtid === gtid) {
+                taIndex = i;
+                break;
+            }
+        }
+        if (taIndex >= 0) {
+            component.taDutyQueue.splice(taIndex, 1);
+        } else {
+            component.taDutyQueue.push({
+                name: component.taDirectory[gtid].name,
+                gtid: gtid,
+                startTime: Date.now()
+            });
+        }
+    }
+
+    handleStudentSwipe(gtid: string) {
+        const component = this;
+        let studentIndex = -1;
+        for (let i = 0; i < component.studentQueue.length; i++) {
+            if (component.studentQueue[i].gtid === gtid) {
+                studentIndex = i;
+                break;
+            }
+        }
+        if (studentIndex >= 0) {
+            component.studentQueue.splice(studentIndex, 1);
+        } else {
+            component.studentQueue.push({
+                name: component.studentDirectory[gtid].name,
+                gtid: gtid,
+                startTime: Date.now()
+            });
         }
     }
 
@@ -90,8 +136,6 @@ export class HomeComponent implements OnInit {
                         }
                     }
                 }
-                console.log(component.studentDirectory);
-                console.log(component.taDirectory);
                 component.isInitializing = false;
                 component.appInitialized = true;
             };
