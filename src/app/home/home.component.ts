@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
     maxGTIDLength = 9;
     GTIDRegex = /9(\d{8})/gm;
     cardSwipeTimeMilliseconds = 1000;
+    doubleSwipeWindow = 2000;
     messageDurationMilliseconds = 2000;
     csvRegex = /.*\.csv$/gim;
     studentRegex = /student/gim;
@@ -80,7 +81,9 @@ export class HomeComponent implements OnInit {
             }
         }
         if (taIndex >= 0) {
-            component.taDutyQueue.splice(taIndex, 1);
+            if (Date.now() - component.taDutyQueue[taIndex].startTime > component.doubleSwipeWindow) {
+                component.taDutyQueue.splice(taIndex, 1);
+            }
         } else {
             component.taDutyQueue.push({
                 name: component.taDirectory[gtid].name,
@@ -100,7 +103,9 @@ export class HomeComponent implements OnInit {
             }
         }
         if (studentIndex >= 0) {
-            component.studentQueue.splice(studentIndex, 1);
+            if (Date.now() - component.studentQueue[studentIndex].startTime > component.doubleSwipeWindow) {
+                component.studentQueue.splice(studentIndex, 1);
+            }
         } else {
             component.studentQueue.push({
                 name: component.studentDirectory[gtid].name,
