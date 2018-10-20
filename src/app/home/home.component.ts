@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
     maxGTIDLength = 9;
     GTIDRegex = /9(\d{8})/gm;
-    cardSwipeTimeMilliseconds = 500;
+    cardSwipeTimeMilliseconds = 1000;
     messageDurationMilliseconds = 2000;
     csvRegex = /.*\.csv$/gim;
     studentRegex = /student/gim;
