@@ -77,10 +77,10 @@ export class HomeComponent implements OnInit {
         }
         if (taIndex >= 0) {
             const offDutyTA = component.taDutyList[taIndex];
-            if (Date.now() - component.taDutyList[taIndex].startTime > component.doubleSwipeWindow) {
+            if (Date.now() - offDutyTA.startTime > component.doubleSwipeWindow) {
                 component.taDutyList.splice(taIndex, 1);
+                component.showMessage(offDutyTA.name + ' is now off duty')
             }
-            component.showMessage(offDutyTA.name + ' is now off duty')
         } else {
             component.taDutyList.push({
                 name: component.taDirectory[gtid].name,
@@ -103,10 +103,10 @@ export class HomeComponent implements OnInit {
         }
         if (studentIndex >= 0) {
             const removedStudent = component.studentQueue[studentIndex];
-            if (Date.now() - component.studentQueue[studentIndex].startTime > component.doubleSwipeWindow) {
+            if (Date.now() - removedStudent.startTime > component.doubleSwipeWindow) {
                 component.studentQueue.splice(studentIndex, 1);
+                component.showMessage(removedStudent.name + ' removed from queue')
             }
-            component.showMessage(removedStudent.name + ' removed from queue')
         } else {
             component.studentQueue.push({
                 name: component.studentDirectory[gtid].name,
