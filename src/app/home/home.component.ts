@@ -9,22 +9,17 @@ import {MatSnackBar} from "@angular/material";
 })
 export class HomeComponent implements OnInit {
 
-    maxGTIDLength = 9;
-    GTIDRegex = /9(\d{8})/gm;
-    cardSwipeTimeMilliseconds = 1000;
+    bufferSize = 16;
+    minBufferCheckLength = 13;
     doubleSwipeWindow = 2000;
     messageDurationMilliseconds = 2000;
-    csvRegex = /.*\.csv$/gim;
-    studentRegex = /student/gim;
-    taRegex = /ta/gim;
-
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
 
     appInitialized: boolean = false;
     isInitializing: boolean = false;
-    digitKeypressBuffer = [];
-    digitKeypressTimestampBuffer = [];
+    keypressBuffer = [];
+    keypressTimestampBuffer = [];
 
     studentDirectory = {};
     taDirectory = {};
@@ -39,26 +34,27 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         const component = this;
         document.onkeypress = function (e) {
-            const detectedDigit = e.keyCode - 48;
-            if (detectedDigit >= 0 && detectedDigit <= 9) {
-                component.digitKeypressBuffer.push(detectedDigit.toString());
-                component.digitKeypressTimestampBuffer.push(Date.now());
-                if (component.digitKeypressBuffer.length > component.maxGTIDLength) {
-                    component.digitKeypressBuffer.shift();
-                    component.digitKeypressTimestampBuffer.shift();
-                }
-                if (component.digitKeypressBuffer.length >= component.maxGTIDLength) {
-                    component.checkForCardSwipe();
-                }
+            component.keypressBuffer.push(String.fromCharCode(e.keyCode));
+            component.keypressTimestampBuffer.push(Date.now());
+            if (component.keypressBuffer.length > component.bufferSize) {
+                component.keypressBuffer.shift();
+                component.keypressTimestampBuffer.shift();
             }
+            component.checkForCardSwipe();
         };
     }
 
     checkForCardSwipe() {
         const component = this;
-        if (component.appInitialized && Date.now() - component.digitKeypressTimestampBuffer[0] < component.cardSwipeTimeMilliseconds) {
-            const inputGTID = component.digitKeypressBuffer.join('').toString();
-            if (component.GTIDRegex.test(inputGTID)) {
+        if (component.keypressBuffer.length >= component.minBufferCheckLength) {
+            const joinedBuffer = component.keypressBuffer.join('');
+            const bufferMatch = /;1570=9(\d{8})/gm.exec(joinedBuffer);
+
+            if (bufferMatch) {
+                component.keypressBuffer = [];
+                component.keypressTimestampBuffer = [];
+                const matchContents = bufferMatch[0];
+                const inputGTID = matchContents.substring(6);
                 console.log(inputGTID);
                 if (component.studentDirectory[inputGTID]) {
                     component.handleStudentSwipe(inputGTID);
@@ -119,18 +115,16 @@ export class HomeComponent implements OnInit {
         const component = this;
         const targetRosterFile = filesInput[0];
         component.isInitializing = true;
-        if (targetRosterFile && component.csvRegex.test(targetRosterFile.name)) {
+        if (targetRosterFile && /.*\.csv$/gim.test(targetRosterFile.name)) {
             const fileReader = new FileReader();
             fileReader.readAsText(targetRosterFile, "UTF-8");
             fileReader.onload = function (evt) {
-                console.log(fileReader.result);
                 const csvLines = fileReader.result.split('\n');
                 for (let lineNum = 1; lineNum < csvLines.length; lineNum++) {
                     const line = csvLines[lineNum];
                     const lineSplit = line.split(',');
                     if (lineSplit.length >= 7) {
-                        // console.log(lineSplit);
-                        if (component.studentRegex.test(lineSplit[5])) {
+                        if (/student/gim.test(lineSplit[5])) {
                             component.studentDirectory[lineSplit[2]] = {
                                 name: lineSplit[0]
                             };
