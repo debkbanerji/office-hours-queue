@@ -20,7 +20,7 @@
     </div>
     <div class="row" *ngIf="appInitialized">
         <div class="col col-sm-8">
-            <h1 class="main-header">Office Hours Queue</h1>
+            <h1 class="main-header">{{className}} Office Hours Queue</h1>
             <div *ngFor="let student of studentQueue">
                 <mat-card class="student-card">
                     <h2>{{student.name}}</h2>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="col col-sm-4">
-            <h2 class="main-header">T.A.s on Duty</h2>
+            <h2 class="ta-duty-header">T.A.s on Duty</h2>
             <div *ngFor="let ta of taDutyQueue">
                 <mat-card class="student-card">
                     <h2>{{ta.name}}</h2>
