@@ -83,7 +83,8 @@ export class HomeComponent implements OnInit {
             component.taDutyList.push({
                 name: component.taDirectory[gtid].name,
                 gtid: gtid,
-                startTime: Date.now()
+                startTime: Date.now(),
+                imageURL: component.taDirectory[gtid].imageURL
             });
         }
     }
@@ -129,7 +130,8 @@ export class HomeComponent implements OnInit {
                             };
                         } else {
                             component.taDirectory[lineSplit[2]] = {
-                                name: lineSplit[0]
+                                name: lineSplit[0],
+                                imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                         }
                     }

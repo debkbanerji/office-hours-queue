@@ -23,7 +23,7 @@
             <h1 class="main-header">{{className}} Office Hours Queue</h1>
             <div *ngFor="let student of studentQueue">
                 <mat-card class="student-card">
-                    <h2>{{student.name}}</h2>
+                    <p class="student-name">{{student.name}}</p>
                 </mat-card>
             </div>
             <div *ngIf="studentQueue.length === 0">
@@ -32,13 +32,22 @@
         </div>
         <div class="col col-sm-4">
             <h2 class="ta-duty-header">T.A.s on Duty</h2>
-            <div *ngFor="let ta of taDutyList">
-                <mat-card class="student-card">
-                    <h2>{{ta.name}}</h2>
-                </mat-card>
+            <div class="ta-list-container row">
+                <div *ngFor="let ta of taDutyList" class="col col-sm-6">
+                    <mat-card class="ta-card">
+                        <div *ngIf="ta.imageURL">
+                            <img class="rounded img-fluid ta-picture"
+                                 src="{{ta.imageURL}}">
+                            <p class="ta-name">{{ta.name}}</p>
+                        </div>
+                        <div *ngIf="!ta.imageURL">
+                            <p class="ta-name">{{ta.name}}</p>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
             <div *ngIf="taDutyList.length === 0">
-                <p class="empty-queue-label">No T.A.s on duty</p>
+                <span class="empty-duty-label">No T.A.s on duty</span>
             </div>
         </div>
     </div>

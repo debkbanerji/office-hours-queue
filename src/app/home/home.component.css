@@ -6,7 +6,7 @@
 
 .ta-duty-header {
     margin-top: 10px;
-    margin-left: 6px;
+    margin-left: 16px;
     font-size: 24px;
 }
 
@@ -49,6 +49,37 @@
     width: 100%;
 }
 
+.ta-list-container {
+    /*display: inline-block;*/
+    width: 100%;
+}
+
+.ta-card {
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin: 0 0 30px;
+    padding-bottom: 10px;
+}
+
+.ta-picture {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+
+.ta-name {
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.ta-large-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
 .student-queue-container {
     width: 66%;
 }
@@ -60,4 +91,9 @@
 .empty-queue-label {
     color: grey;
     margin-left: 6px;
+}
+
+.empty-duty-label {
+    color: grey;
+    margin-left: 16px;
 }
