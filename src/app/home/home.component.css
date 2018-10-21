@@ -49,6 +49,11 @@
     width: 100%;
 }
 
+.student-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
 .ta-list-container {
     /*display: inline-block;*/
     width: 100%;
