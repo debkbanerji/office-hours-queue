@@ -55,7 +55,6 @@ export class HomeComponent implements OnInit {
                 component.keypressTimestampBuffer = [];
                 const matchContents = bufferMatch[0];
                 const inputGTID = matchContents.substring(6);
-                console.log(inputGTID);
                 if (component.studentDirectory[inputGTID]) {
                     component.handleStudentSwipe(inputGTID);
                 } else if (component.taDirectory[inputGTID]) {
