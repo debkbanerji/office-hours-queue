@@ -56,3 +56,8 @@
 .ta-duty-container {
     width: 33%;
 }
+
+.empty-queue-label {
+    color: grey;
+    margin-left: 6px;
+}

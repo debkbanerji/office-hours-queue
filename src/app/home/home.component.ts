@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     studentDirectory = {};
     taDirectory = {};
     studentQueue = [];
-    taDutyQueue = [];
+    taDutyList = [];
 
     className: string = null;
 
@@ -69,18 +69,18 @@ export class HomeComponent implements OnInit {
     handleTASwipe(gtid: string) {
         const component = this;
         let taIndex = -1;
-        for (let i = 0; i < component.taDutyQueue.length; i++) {
-            if (component.taDutyQueue[i].gtid === gtid) {
+        for (let i = 0; i < component.taDutyList.length; i++) {
+            if (component.taDutyList[i].gtid === gtid) {
                 taIndex = i;
                 break;
             }
         }
         if (taIndex >= 0) {
-            if (Date.now() - component.taDutyQueue[taIndex].startTime > component.doubleSwipeWindow) {
-                component.taDutyQueue.splice(taIndex, 1);
+            if (Date.now() - component.taDutyList[taIndex].startTime > component.doubleSwipeWindow) {
+                component.taDutyList.splice(taIndex, 1);
             }
         } else {
-            component.taDutyQueue.push({
+            component.taDutyList.push({
                 name: component.taDirectory[gtid].name,
                 gtid: gtid,
                 startTime: Date.now()
