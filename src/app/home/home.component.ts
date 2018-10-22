@@ -21,6 +21,9 @@ export class HomeComponent implements OnInit {
     keypressBuffer = [];
     keypressTimestampBuffer = [];
 
+    listeningForElevatedPrivileges: boolean = false;
+    hasElevatedPrivileges: boolean = false;
+
     studentDirectory = {};
     taDirectory = {};
     studentQueue = [];
@@ -49,21 +52,46 @@ export class HomeComponent implements OnInit {
         if (component.keypressBuffer.length >= component.minBufferCheckLength) {
             const joinedBuffer = component.keypressBuffer.join('');
             const bufferMatch = /;1570=9(\d{8})/gm.exec(joinedBuffer);
-
             if (bufferMatch) {
                 component.keypressBuffer = [];
                 component.keypressTimestampBuffer = [];
                 const matchContents = bufferMatch[0];
                 const inputGTID = matchContents.substring(6);
-                if (component.studentDirectory[inputGTID]) {
-                    component.handleStudentSwipe(inputGTID);
-                } else if (component.taDirectory[inputGTID]) {
-                    component.handleTASwipe(inputGTID);
-                } else {
-                    component.showMessage('GTID not recognized');
+                if (component.listeningForElevatedPrivileges) {
+                    component.elevatePrivilegesIfPossible(inputGTID);
+                } else if (!component.hasElevatedPrivileges) {
+                    if (component.studentDirectory[inputGTID]) {
+                        component.handleStudentSwipe(inputGTID);
+                    } else if (component.taDirectory[inputGTID]) {
+                        component.handleTASwipe(inputGTID);
+                    } else {
+                        component.showMessage('GTID not recognized');
+                    }
                 }
             }
         }
+    }
+
+    listenForElevatedPrivileges() {
+        this.listeningForElevatedPrivileges = true;
+    }
+
+    unelevatePrivileges() {
+        const component = this;
+        component.hasElevatedPrivileges = false;
+        component.listeningForElevatedPrivileges = false;
+    }
+
+    elevatePrivilegesIfPossible(inputGTID) {
+        const component = this;
+        if (component.taDirectory[inputGTID]) {
+            component.hasElevatedPrivileges = true;
+            component.showMessage('Enabled editing');
+        } else {
+            component.showMessage('Insufficient privileges');
+            component.hasElevatedPrivileges = false;
+        }
+        component.listeningForElevatedPrivileges = false;
     }
 
     handleTASwipe(gtid: string) {

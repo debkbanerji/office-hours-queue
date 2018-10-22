@@ -32,7 +32,14 @@
             </div>
         </div>
         <div class="col col-sm-4">
-            <h2 class="ta-duty-header">T.A.s on Duty</h2>
+            <div class="ta-duty-header">
+                <span>T.A.s on Duty</span>
+                <div class="elevate-privilege-control">
+                    <button mat-raised-button (click)="listenForElevatedPrivileges()" *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode</button>
+                    <p *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</p>
+                    <button mat-raised-button color="primary" (click)="unelevatePrivileges()" *ngIf="hasElevatedPrivileges">Finish Editing</button>
+                </div>
+            </div>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList" class="col col-sm-6">
                     <mat-card class="ta-card">
