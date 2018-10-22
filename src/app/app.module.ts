@@ -9,11 +9,14 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatTooltipModule
 } from "@angular/material";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
+import 'hammerjs';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -34,6 +37,7 @@ const routes: Routes = [
         MatFormFieldModule,
         MatProgressSpinnerModule,
         MatInputModule,
+        MatSlideToggleModule,
         MatSnackBarModule,
         MatTooltipModule,
         RouterModule.forRoot(routes)

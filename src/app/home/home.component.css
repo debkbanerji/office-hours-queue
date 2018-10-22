@@ -25,6 +25,10 @@
     float: right;
 }
 
+.dark-mode-slider {
+    margin-left: 16px;
+}
+
 .init-main-header {
     margin-top: 6px;
     font-size: 28px;

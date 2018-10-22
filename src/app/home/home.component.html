@@ -67,6 +67,9 @@
                     </button>
                 </div>
             </div>
+            <mat-slide-toggle *ngIf="hasElevatedPrivileges" [(ngModel)]="isDarkTheme" class="dark-mode-slider">
+                Dark Mode
+            </mat-slide-toggle>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
                     <mat-card class="ta-card">
@@ -79,7 +82,7 @@
                             <span class="ta-name"><span *ngIf="ta.isProfessor" matTooltip="Professor">🎓</span> {{ta.name}}</span>
                         </div>
                         <div>
-                            <p class="ta-email">{{ta.email}}</p>
+                            <span class="ta-email">{{ta.email}}</span>
                         </div>
                         <button mat-raised-button *ngIf="hasElevatedPrivileges"
                                 class="btn btn-danger edit-queue-btn"
