@@ -22,9 +22,28 @@
         <div class="col col-sm-8">
             <h1 class="main-header">{{className}} Office Hours Queue</h1>
             <b class="buzzcard-instruction">Swipe your BuzzCard to add yourself to the queue</b>
-            <div *ngFor="let student of studentQueue">
+            <div *ngFor="let student of studentQueue; let i = index">
                 <mat-card class="student-card">
-                    <p class="student-name">{{student.name}}</p>
+                    <span class="student-name">{{student.name}}</span>
+                    <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
+                        <button mat-raised-button
+                                class="btn btn-default edit-queue-btn"
+                                *ngIf="i < studentQueue.length - 1"
+                                (click)="moveStudentDown(i)">
+                            ▼
+                        </button>
+                        <button mat-raised-button
+                                class="btn btn-default edit-queue-btn"
+                                *ngIf="i > 0"
+                                (click)="moveStudentUp(i)">
+                            ▲
+                        </button>
+                        <button mat-raised-button
+                                class="btn btn-success edit-queue-btn"
+                                (click)="removeStudent(i)">
+                            Resolve
+                        </button>
+                    </div>
                 </mat-card>
             </div>
             <div *ngIf="studentQueue.length === 0">
@@ -33,15 +52,19 @@
         </div>
         <div class="col col-sm-4">
             <div class="ta-duty-header">
-                <span>T.A.s on Duty</span>
-                <div class="elevate-privilege-control">
-                    <button mat-raised-button (click)="listenForElevatedPrivileges()" *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode</button>
-                    <p *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</p>
-                    <button mat-raised-button color="primary" (click)="unelevatePrivileges()" *ngIf="hasElevatedPrivileges">Finish Editing</button>
-                </div>
+                    <span>T.A.s on Duty</span>
+                    <div class="elevate-privilege-control">
+                        <button mat-raised-button (click)="listenForElevatedPrivileges()"
+                                *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode
+                        </button>
+                        <span *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</span>
+                        <button mat-raised-button color="primary" (click)="unelevatePrivileges()"
+                                *ngIf="hasElevatedPrivileges">Finish Editing
+                        </button>
+                    </div>
             </div>
             <div class="ta-list-container row">
-                <div *ngFor="let ta of taDutyList" class="col col-sm-6">
+                <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
                     <mat-card class="ta-card">
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
@@ -51,6 +74,11 @@
                         <div *ngIf="!ta.imageURL">
                             <p class="ta-name">{{ta.name}}</p>
                         </div>
+                        <button mat-raised-button *ngIf="hasElevatedPrivileges"
+                                class="btn btn-danger edit-queue-btn"
+                                (click)="removeTA(i)">
+                            Sign Out
+                        </button>
                     </mat-card>
                 </div>
             </div>

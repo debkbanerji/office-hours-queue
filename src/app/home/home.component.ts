@@ -162,6 +162,7 @@ export class HomeComponent implements OnInit {
                             component.studentDirectory[lineSplit[2]] = {
                                 name: lineSplit[0]
                             };
+                            component.handleStudentSwipe(lineSplit[2]); // TODO: Remvoe after testing
                         } else {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
@@ -189,4 +190,31 @@ export class HomeComponent implements OnInit {
             duration: component.messageDurationMilliseconds,
         });
     }
+
+    public moveStudentUp(index) {
+        this.switchElements(this.studentQueue, index, index - 1);
+    }
+
+    public moveStudentDown(index) {
+        this.switchElements(this.studentQueue, index, index + 1);
+    }
+
+    public removeStudent(index) {
+        this.studentQueue = this.removeAtIndex(this.studentQueue, index);
+    }
+
+    public removeTA(index) {
+        this.taDutyList = this.removeAtIndex(this.taDutyList, index);
+    }
+
+    public removeAtIndex(arr, index) {
+        arr.splice(index, 1);
+        return arr
+    }
+
+    public switchElements = function (arr, i1, i2) {
+        const temp = arr[i1];
+        arr[i1] = arr[i2];
+        arr[i2] = temp;
+    };
 }
