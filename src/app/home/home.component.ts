@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     listenForPrivilegesTimeoutMilliseconds = 3000;
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
+    LOGO_URL = '/assets/images/Buzz.png';
 
     appInitialized: boolean = false;
     isInitializing: boolean = false;

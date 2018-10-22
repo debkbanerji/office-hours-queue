@@ -20,7 +20,10 @@
     </div>
     <div class="row" *ngIf="appInitialized">
         <div class="col col-sm-8">
-            <h1 class="main-header">{{className}} Office Hours Queue</h1>
+            <h1 class="main-header">
+                <img class="logo" src="{{LOGO_URL}}">
+                {{className}} Office Hours Queue
+            </h1>
             <b class="buzzcard-instruction">Swipe your BuzzCard to add yourself to the queue</b>
             <div *ngFor="let student of studentQueue; let i = index">
                 <mat-card class="student-card">
@@ -99,6 +102,8 @@
             Created by <a href="https://debkbanerji.com" target="_blank" class="external-link">Deb</a>
             &#8901;
             Made with ♥
+            &#8901;
+            v{{version}}
         </small>
     </div>
 </div>
