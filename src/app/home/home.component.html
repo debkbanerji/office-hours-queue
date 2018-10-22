@@ -21,6 +21,7 @@
     <div class="row" *ngIf="appInitialized">
         <div class="col col-sm-8">
             <h1 class="main-header">{{className}} Office Hours Queue</h1>
+            <b class="buzzcard-instruction">Swipe your BuzzCard to add yourself to the queue</b>
             <div *ngFor="let student of studentQueue">
                 <mat-card class="student-card">
                     <p class="student-name">{{student.name}}</p>

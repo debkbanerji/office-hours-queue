@@ -10,6 +10,10 @@
     font-size: 24px;
 }
 
+.elevate-privilege-control {
+    float: right;
+}
+
 .init-main-header {
     margin-top: 6px;
     font-size: 28px;
@@ -91,6 +95,10 @@
 
 .ta-duty-container {
     width: 33%;
+}
+
+.buzzcard-instruction {
+    margin-left: 6px;
 }
 
 .empty-queue-label {
