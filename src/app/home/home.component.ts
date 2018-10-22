@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {MatSnackBar} from "@angular/material";
 
@@ -227,4 +227,9 @@ export class HomeComponent implements OnInit {
         arr[i1] = arr[i2];
         arr[i2] = temp;
     };
+
+    @HostListener('window:beforeunload', ['$event'])
+    doSomething($event) {
+        if (this.studentQueue.length > 0) $event.returnValue = 'Warning: queue data will be lost';
+    }
 }
