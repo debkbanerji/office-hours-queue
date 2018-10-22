@@ -121,14 +121,16 @@ export class HomeComponent implements OnInit {
                 component.showMessage(offDutyTA.name + ' is now off duty')
             }
         } else {
+            let taToAdd = component.taDirectory[gtid];
             component.taDutyList.push({
-                name: component.taDirectory[gtid].name,
-                email: component.taDirectory[gtid].email,
+                name: taToAdd.name,
+                email: taToAdd.email,
+                isProfessor: taToAdd.isProfessor,
                 gtid: gtid,
                 startTime: Date.now(),
-                imageURL: component.taDirectory[gtid].imageURL
+                imageURL: taToAdd.imageURL
             });
-            component.showMessage(component.taDirectory[gtid].name + ' is now on duty')
+            component.showMessage(taToAdd.name + ' is now on duty')
         }
     }
 
@@ -178,6 +180,7 @@ export class HomeComponent implements OnInit {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
                                 email: lineSplit[1],
+                                isProfessor: /professor/gim.test(lineSplit[5]),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                         }

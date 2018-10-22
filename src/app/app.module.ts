@@ -9,7 +9,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
 } from "@angular/material";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -34,6 +35,7 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatInputModule,
         MatSnackBarModule,
+        MatTooltipModule,
         RouterModule.forRoot(routes)
     ],
     providers: [],

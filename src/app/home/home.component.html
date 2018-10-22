@@ -55,7 +55,8 @@
                 <span>T.A.s on Duty</span>
                 <div class="elevate-privilege-control">
                     <button mat-raised-button (click)="listenForElevatedPrivileges()"
-                            *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode
+                            *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges && (studentQueue.length || taDutyList.length > 0)">
+                        Admin Mode
                     </button>
                     <span *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</span>
                     <button mat-raised-button color="primary" (click)="unelevatePrivileges()"
@@ -69,10 +70,10 @@
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">
-                            <span class="ta-name">{{ta.name}}</span>
+                            <span class="ta-name"><span *ngIf="ta.isProfessor" matTooltip="Professor">🎓</span> {{ta.name}}</span>
                         </div>
                         <div *ngIf="!ta.imageURL">
-                            <span class="ta-name">{{ta.name}}</span>
+                            <span class="ta-name"><span *ngIf="ta.isProfessor" matTooltip="Professor">🎓</span> {{ta.name}}</span>
                         </div>
                         <div>
                             <p class="ta-email">{{ta.email}}</p>
