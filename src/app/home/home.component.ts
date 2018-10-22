@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
     minBufferCheckLength = 13;
     doubleSwipeWindow = 2000;
     messageDurationMilliseconds = 2000;
+    listenForPrivilegesTimeoutMilliseconds = 3000;
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
 
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
 
     listeningForElevatedPrivileges: boolean = false;
     hasElevatedPrivileges: boolean = false;
+    listeningForElevatedPrivilegesTimeout = null;
 
     studentDirectory = {};
     taDirectory = {};
@@ -73,7 +75,16 @@ export class HomeComponent implements OnInit {
     }
 
     listenForElevatedPrivileges() {
-        this.listeningForElevatedPrivileges = true;
+        const component = this;
+        component.listeningForElevatedPrivileges = true;
+        if (component.listeningForElevatedPrivilegesTimeout) {
+            clearTimeout(component.listeningForElevatedPrivilegesTimeout);
+        }
+        component.listeningForElevatedPrivilegesTimeout = setTimeout(function () {
+            if (component.listeningForElevatedPrivileges) {
+                component.listeningForElevatedPrivileges = false;
+            }
+        }, component.listenForPrivilegesTimeoutMilliseconds);
     }
 
     unelevatePrivileges() {
@@ -162,7 +173,6 @@ export class HomeComponent implements OnInit {
                             component.studentDirectory[lineSplit[2]] = {
                                 name: lineSplit[0]
                             };
-                            component.handleStudentSwipe(lineSplit[2]); // TODO: Remvoe after testing
                         } else {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
