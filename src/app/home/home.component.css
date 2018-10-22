@@ -8,6 +8,7 @@
     margin-top: 10px;
     margin-left: 16px;
     font-size: 24px;
+    margin-bottom: 8px;
 }
 
 .elevate-privilege-control {
@@ -49,17 +50,33 @@
     display: block;
 }
 
+.edit-queue-control {
+    display: inline-block;
+    float: right;
+}
+
+.edit-queue-btn {
+    line-height: 24px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    min-width: 10px;
+    margin-right: 4px;
+}
+
 .student-card {
     width: 100%;
+    margin: 2px;
+    padding: 12px;
+    display: inline-block;
 }
 
 .student-name {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .ta-list-container {
-    /*display: inline-block;*/
     width: 100%;
 }
 

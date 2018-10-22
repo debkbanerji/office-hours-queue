@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
     minBufferCheckLength = 13;
     doubleSwipeWindow = 2000;
     messageDurationMilliseconds = 2000;
+    listenForPrivilegesTimeoutMilliseconds = 3000;
     version = environment.VERSION;
     isDarkTheme: boolean = false; // TODO: Add toggle
 
@@ -20,6 +21,10 @@ export class HomeComponent implements OnInit {
     isInitializing: boolean = false;
     keypressBuffer = [];
     keypressTimestampBuffer = [];
+
+    listeningForElevatedPrivileges: boolean = false;
+    hasElevatedPrivileges: boolean = false;
+    listeningForElevatedPrivilegesTimeout = null;
 
     studentDirectory = {};
     taDirectory = {};
@@ -49,21 +54,55 @@ export class HomeComponent implements OnInit {
         if (component.keypressBuffer.length >= component.minBufferCheckLength) {
             const joinedBuffer = component.keypressBuffer.join('');
             const bufferMatch = /;1570=9(\d{8})/gm.exec(joinedBuffer);
-
             if (bufferMatch) {
                 component.keypressBuffer = [];
                 component.keypressTimestampBuffer = [];
                 const matchContents = bufferMatch[0];
                 const inputGTID = matchContents.substring(6);
-                if (component.studentDirectory[inputGTID]) {
-                    component.handleStudentSwipe(inputGTID);
-                } else if (component.taDirectory[inputGTID]) {
-                    component.handleTASwipe(inputGTID);
-                } else {
-                    component.showMessage('GTID not recognized');
+                if (component.listeningForElevatedPrivileges) {
+                    component.elevatePrivilegesIfPossible(inputGTID);
+                } else if (!component.hasElevatedPrivileges) {
+                    if (component.studentDirectory[inputGTID]) {
+                        component.handleStudentSwipe(inputGTID);
+                    } else if (component.taDirectory[inputGTID]) {
+                        component.handleTASwipe(inputGTID);
+                    } else {
+                        component.showMessage('GTID not recognized');
+                    }
                 }
             }
         }
+    }
+
+    listenForElevatedPrivileges() {
+        const component = this;
+        component.listeningForElevatedPrivileges = true;
+        if (component.listeningForElevatedPrivilegesTimeout) {
+            clearTimeout(component.listeningForElevatedPrivilegesTimeout);
+        }
+        component.listeningForElevatedPrivilegesTimeout = setTimeout(function () {
+            if (component.listeningForElevatedPrivileges) {
+                component.listeningForElevatedPrivileges = false;
+            }
+        }, component.listenForPrivilegesTimeoutMilliseconds);
+    }
+
+    unelevatePrivileges() {
+        const component = this;
+        component.hasElevatedPrivileges = false;
+        component.listeningForElevatedPrivileges = false;
+    }
+
+    elevatePrivilegesIfPossible(inputGTID) {
+        const component = this;
+        if (component.taDirectory[inputGTID]) {
+            component.hasElevatedPrivileges = true;
+            component.showMessage('Enabled editing');
+        } else {
+            component.showMessage('Insufficient privileges');
+            component.hasElevatedPrivileges = false;
+        }
+        component.listeningForElevatedPrivileges = false;
     }
 
     handleTASwipe(gtid: string) {
@@ -161,4 +200,31 @@ export class HomeComponent implements OnInit {
             duration: component.messageDurationMilliseconds,
         });
     }
+
+    public moveStudentUp(index) {
+        this.switchElements(this.studentQueue, index, index - 1);
+    }
+
+    public moveStudentDown(index) {
+        this.switchElements(this.studentQueue, index, index + 1);
+    }
+
+    public removeStudent(index) {
+        this.studentQueue = this.removeAtIndex(this.studentQueue, index);
+    }
+
+    public removeTA(index) {
+        this.taDutyList = this.removeAtIndex(this.taDutyList, index);
+    }
+
+    public removeAtIndex(arr, index) {
+        arr.splice(index, 1);
+        return arr
+    }
+
+    public switchElements = function (arr, i1, i2) {
+        const temp = arr[i1];
+        arr[i1] = arr[i2];
+        arr[i2] = temp;
+    };
 }
