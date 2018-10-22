@@ -52,16 +52,16 @@
         </div>
         <div class="col col-sm-4">
             <div class="ta-duty-header">
-                    <span>T.A.s on Duty</span>
-                    <div class="elevate-privilege-control">
-                        <button mat-raised-button (click)="listenForElevatedPrivileges()"
-                                *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode
-                        </button>
-                        <span *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</span>
-                        <button mat-raised-button color="primary" (click)="unelevatePrivileges()"
-                                *ngIf="hasElevatedPrivileges">Finish Editing
-                        </button>
-                    </div>
+                <span>T.A.s on Duty</span>
+                <div class="elevate-privilege-control">
+                    <button mat-raised-button (click)="listenForElevatedPrivileges()"
+                            *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges">Admin Mode
+                    </button>
+                    <span *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</span>
+                    <button mat-raised-button color="primary" (click)="unelevatePrivileges()"
+                            *ngIf="hasElevatedPrivileges">Finish Editing
+                    </button>
+                </div>
             </div>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
@@ -69,10 +69,13 @@
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">
-                            <p class="ta-name">{{ta.name}}</p>
+                            <span class="ta-name">{{ta.name}}</span>
                         </div>
                         <div *ngIf="!ta.imageURL">
-                            <p class="ta-name">{{ta.name}}</p>
+                            <span class="ta-name">{{ta.name}}</span>
+                        </div>
+                        <div>
+                            <p class="ta-email">{{ta.email}}</p>
                         </div>
                         <button mat-raised-button *ngIf="hasElevatedPrivileges"
                                 class="btn btn-danger edit-queue-btn"

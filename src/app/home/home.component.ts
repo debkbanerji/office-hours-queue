@@ -123,6 +123,7 @@ export class HomeComponent implements OnInit {
         } else {
             component.taDutyList.push({
                 name: component.taDirectory[gtid].name,
+                email: component.taDirectory[gtid].email,
                 gtid: gtid,
                 startTime: Date.now(),
                 imageURL: component.taDirectory[gtid].imageURL
@@ -176,6 +177,7 @@ export class HomeComponent implements OnInit {
                         } else {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
+                                email: lineSplit[1],
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                         }
