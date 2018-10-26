@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
                                 email: lineSplit[1],
-                                isProfessor: /professor/gim.test(lineSplit[5]),
+                                isProfessor: /teacher/gim.test(lineSplit[5]),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                         }
