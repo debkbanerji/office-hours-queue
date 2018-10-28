@@ -76,10 +76,10 @@
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">
-                            <span class="ta-name"><span *ngIf="ta.isTeacher" matTooltip="Professor">🎓</span> {{ta.name}}</span>
+                            <span class="ta-name" [style.color]="ta.nameColor"> {{ta.name}}</span>
                         </div>
                         <div *ngIf="!ta.imageURL">
-                            <span class="ta-name"><span *ngIf="ta.isTeacher" matTooltip="Professor">🎓</span> {{ta.name}}</span>
+                            <span class="ta-name" [style.color]="ta.nameColor"> {{ta.name}}</span>
                         </div>
                         <div>
                             <span class="ta-email">{{ta.email}}</span>
@@ -99,7 +99,8 @@
     </div>
     <div class="page-footer" *ngIf="!appInitialized && !isInitializing">
         <small>
-            <a href="https://github.com/debkbanerji/office-hours-queue" target="_blank" class="external-link">Source Code</a>
+            <a href="https://github.com/debkbanerji/office-hours-queue" target="_blank" class="external-link">Source
+                Code</a>
             &#8901;
             Created by <a href="https://debkbanerji.com" target="_blank" class="external-link">Deb</a>
             &#8901;

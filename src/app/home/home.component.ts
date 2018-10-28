@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
             component.taDutyList.push({
                 name: taToAdd.name,
                 email: taToAdd.email,
-                isTeacher: taToAdd.isTeacher,
+                nameColor: taToAdd.nameColor,
                 gtid: gtid,
                 startTime: Date.now(),
                 imageURL: taToAdd.imageURL
@@ -177,11 +177,15 @@ export class HomeComponent implements OnInit {
                             component.studentDirectory[lineSplit[2]] = {
                                 name: lineSplit[0]
                             };
-                        } else if (/(ta)|(teacher)|(professor)/gim.test(lineSplit[5])) {
+                        } else if (/(.*t(\.|)a(\.|)$)|(teacher)|(professor)/gim.test(lineSplit[5])) {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
                                 email: lineSplit[1],
-                                isTeacher: /(teacher)|(professor)/gim.test(lineSplit[5]),
+                                nameColor: /(teacher)|(professor)/gim.test(lineSplit[5]) ? '#a6a000' :
+                                    (/head\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#e91e63' : (
+                                        /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#4882d6'
+                                            : null
+                                    )),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                         } else {
