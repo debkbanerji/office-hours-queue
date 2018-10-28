@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
                                 email: lineSplit[1],
-                                nameColor: lineSplit.length > 8 ? lineSplit[8] : (
+                                nameColor: lineSplit.length > 8 && lineSplit[8] && lineSplit[8].length > 1 ? lineSplit[8] : (
                                     /(teacher)|(professor)/gim.test(lineSplit[5]) ? '#a6a000' : (
                                         /head\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#e91e63' : (
                                             /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#4882d6'
