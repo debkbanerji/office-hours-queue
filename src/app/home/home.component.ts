@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
         component.hasElevatedPrivileges = false;
     }
 
-    refreshElevatedPriviliges() {
+    refreshElevatedPrivileges() {
         const component = this;
         if (component.elevatedPrivilegesTimeout) {
             clearTimeout(component.elevatedPrivilegesTimeout);
@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
             }
         }
         if (taIndex >= 0) {
-            component.refreshElevatedPriviliges()
+            component.refreshElevatedPrivileges()
         } else {
             let taToAdd = component.taDirectory[gtid];
             component.taDutyList.push({
@@ -198,22 +198,22 @@ export class HomeComponent implements OnInit {
 
     public moveStudentUp(index) {
         this.switchElements(this.studentQueue, index, index - 1);
-        this.refreshElevatedPriviliges();
+        this.refreshElevatedPrivileges();
     }
 
     public moveStudentDown(index) {
         this.switchElements(this.studentQueue, index, index + 1);
-        this.refreshElevatedPriviliges();
+        this.refreshElevatedPrivileges();
     }
 
     public removeStudent(index) {
         this.studentQueue = this.removeAtIndex(this.studentQueue, index);
-        this.refreshElevatedPriviliges();
+        this.refreshElevatedPrivileges();
     }
 
     public removeTA(index) {
         this.taDutyList = this.removeAtIndex(this.taDutyList, index);
-        this.refreshElevatedPriviliges();
+        this.refreshElevatedPrivileges();
     }
 
     public removeAtIndex(arr, index) {
