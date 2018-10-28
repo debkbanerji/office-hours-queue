@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
             component.taDutyList.push({
                 name: taToAdd.name,
                 email: taToAdd.email,
-                isProfessor: taToAdd.isProfessor,
+                isTeacher: taToAdd.isTeacher,
                 gtid: gtid,
                 startTime: Date.now(),
                 imageURL: taToAdd.imageURL
@@ -170,20 +170,22 @@ export class HomeComponent implements OnInit {
             fileReader.onload = function (evt) {
                 const csvLines = fileReader.result.split('\n');
                 for (let lineNum = 1; lineNum < csvLines.length; lineNum++) {
-                    const line = csvLines[lineNum];
+                    const line = csvLines[lineNum].replace(/"[^"]*?"/gim, "\"REPLACED\"");
                     const lineSplit = line.split(',');
                     if (lineSplit.length >= 7) {
                         if (/student/gim.test(lineSplit[5])) {
                             component.studentDirectory[lineSplit[2]] = {
                                 name: lineSplit[0]
                             };
-                        } else {
+                        } else if (/(ta)|(teacher)|(professor)/gim.test(lineSplit[5])) {
                             component.taDirectory[lineSplit[2]] = {
                                 name: lineSplit[0],
                                 email: lineSplit[1],
-                                isProfessor: /teacher/gim.test(lineSplit[5]),
+                                isTeacher: /(teacher)|(professor)/gim.test(lineSplit[5]),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
+                        } else {
+                            console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
                         }
                     }
                 }
