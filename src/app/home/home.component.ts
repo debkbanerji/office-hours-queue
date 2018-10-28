@@ -13,9 +13,9 @@ export class HomeComponent implements OnInit {
     minBufferCheckLength = 13;
     doubleSwipeWindow = 2000;
     messageDurationMilliseconds = 2000;
-    listenForPrivilegesTimeoutMilliseconds = 3000;
+    privilegesTimeoutMilliseconds = 10000;
     version = environment.VERSION;
-    isDarkTheme: boolean = false; // TODO: Add toggle
+    isDarkTheme: boolean = false;
     LOGO_URL = '/assets/images/Buzz.png';
 
     appInitialized: boolean = false;
@@ -23,9 +23,8 @@ export class HomeComponent implements OnInit {
     keypressBuffer = [];
     keypressTimestampBuffer = [];
 
-    listeningForElevatedPrivileges: boolean = false;
     hasElevatedPrivileges: boolean = false;
-    listeningForElevatedPrivilegesTimeout = null;
+    elevatedPrivilegesTimeout = null;
 
     studentDirectory = {};
     taDirectory = {};
@@ -52,7 +51,7 @@ export class HomeComponent implements OnInit {
 
     checkForCardSwipe() {
         const component = this;
-        if (component.keypressBuffer.length >= component.minBufferCheckLength) {
+        if (component.appInitialized && component.keypressBuffer.length >= component.minBufferCheckLength) {
             const joinedBuffer = component.keypressBuffer.join('');
             const bufferMatch = /;1570=9(\d{8})/gm.exec(joinedBuffer);
             if (bufferMatch) {
@@ -60,51 +59,39 @@ export class HomeComponent implements OnInit {
                 component.keypressTimestampBuffer = [];
                 const matchContents = bufferMatch[0];
                 const inputGTID = matchContents.substring(6);
-                if (component.listeningForElevatedPrivileges) {
-                    component.elevatePrivilegesIfPossible(inputGTID);
-                } else if (!component.hasElevatedPrivileges) {
-                    if (component.studentDirectory[inputGTID]) {
-                        component.handleStudentSwipe(inputGTID);
-                    } else if (component.taDirectory[inputGTID]) {
-                        component.handleTASwipe(inputGTID);
-                    } else {
-                        component.showMessage('GTID not recognized');
-                    }
+                if (component.studentDirectory[inputGTID]) {
+                    component.handleStudentSwipe(inputGTID);
+                } else if (component.taDirectory[inputGTID]) {
+                    component.handleTASwipe(inputGTID);
+                } else {
+                    component.showMessage('GTID not recognized');
                 }
             }
         }
     }
 
-    listenForElevatedPrivileges() {
-        const component = this;
-        component.listeningForElevatedPrivileges = true;
-        if (component.listeningForElevatedPrivilegesTimeout) {
-            clearTimeout(component.listeningForElevatedPrivilegesTimeout);
-        }
-        component.listeningForElevatedPrivilegesTimeout = setTimeout(function () {
-            if (component.listeningForElevatedPrivileges) {
-                component.listeningForElevatedPrivileges = false;
-            }
-        }, component.listenForPrivilegesTimeoutMilliseconds);
-    }
-
     unelevatePrivileges() {
         const component = this;
+        if (component.elevatedPrivilegesTimeout) {
+            clearTimeout(component.elevatedPrivilegesTimeout);
+        }
         component.hasElevatedPrivileges = false;
-        component.listeningForElevatedPrivileges = false;
     }
 
-    elevatePrivilegesIfPossible(inputGTID) {
+    refreshElevatedPriviliges() {
         const component = this;
-        if (component.taDirectory[inputGTID]) {
-            component.hasElevatedPrivileges = true;
-            component.showMessage('Enabled editing');
+        if (component.elevatedPrivilegesTimeout) {
+            clearTimeout(component.elevatedPrivilegesTimeout);
         } else {
-            component.showMessage('Insufficient privileges');
-            component.hasElevatedPrivileges = false;
+            component.showMessage('Enabled admin mode');
         }
-        component.listeningForElevatedPrivileges = false;
+        component.elevatedPrivilegesTimeout = setTimeout(function () {
+            component.hasElevatedPrivileges = false;
+            component.elevatedPrivilegesTimeout = null;
+        }, component.privilegesTimeoutMilliseconds);
+        component.hasElevatedPrivileges = true;
     }
+
 
     handleTASwipe(gtid: string) {
         const component = this;
@@ -116,11 +103,7 @@ export class HomeComponent implements OnInit {
             }
         }
         if (taIndex >= 0) {
-            const offDutyTA = component.taDutyList[taIndex];
-            if (Date.now() - offDutyTA.startTime > component.doubleSwipeWindow) {
-                component.taDutyList.splice(taIndex, 1);
-                component.showMessage(offDutyTA.name + ' is now off duty')
-            }
+            component.refreshElevatedPriviliges()
         } else {
             let taToAdd = component.taDirectory[gtid];
             component.taDutyList.push({
@@ -131,7 +114,7 @@ export class HomeComponent implements OnInit {
                 startTime: Date.now(),
                 imageURL: taToAdd.imageURL
             });
-            component.showMessage(taToAdd.name + ' is now on duty')
+            component.showMessage(taToAdd.name + ' is now on duty');
         }
     }
 
@@ -215,18 +198,22 @@ export class HomeComponent implements OnInit {
 
     public moveStudentUp(index) {
         this.switchElements(this.studentQueue, index, index - 1);
+        this.refreshElevatedPriviliges();
     }
 
     public moveStudentDown(index) {
         this.switchElements(this.studentQueue, index, index + 1);
+        this.refreshElevatedPriviliges();
     }
 
     public removeStudent(index) {
         this.studentQueue = this.removeAtIndex(this.studentQueue, index);
+        this.refreshElevatedPriviliges();
     }
 
     public removeTA(index) {
         this.taDutyList = this.removeAtIndex(this.taDutyList, index);
+        this.refreshElevatedPriviliges();
     }
 
     public removeAtIndex(arr, index) {

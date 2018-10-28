@@ -57,29 +57,26 @@
             <div class="ta-duty-header">
                 <span>T.A.s on Duty</span>
                 <div class="elevate-privilege-control">
-                    <button mat-raised-button (click)="listenForElevatedPrivileges()"
-                            *ngIf="!listeningForElevatedPrivileges && !hasElevatedPrivileges && (studentQueue.length || taDutyList.length > 0)">
-                        Admin Mode
-                    </button>
-                    <span *ngIf="listeningForElevatedPrivileges && !hasElevatedPrivileges">Swipe your BuzzCard</span>
-                    <button mat-raised-button color="primary" (click)="unelevatePrivileges()"
+                    <mat-slide-toggle *ngIf="hasElevatedPrivileges" [(ngModel)]="isDarkTheme"
+                                      (change)="refreshElevatedPriviliges()" class="dark-mode-slider">
+                        Dark Mode
+                    </mat-slide-toggle>
+                    &nbsp;
+                    <button mat-raised-button (click)="unelevatePrivileges()"
                             *ngIf="hasElevatedPrivileges">Finish Editing
                     </button>
                 </div>
             </div>
-            <mat-slide-toggle *ngIf="hasElevatedPrivileges" [(ngModel)]="isDarkTheme" class="dark-mode-slider">
-                Dark Mode
-            </mat-slide-toggle>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
                     <mat-card class="ta-card">
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">
-                            <span class="ta-name" [style.color]="ta.nameColor"> {{ta.name}}</span>
+                            <span class="ta-name" [style.color]="ta.nameColor">{{ta.name}}</span>
                         </div>
                         <div *ngIf="!ta.imageURL">
-                            <span class="ta-name" [style.color]="ta.nameColor"> {{ta.name}}</span>
+                            <span class="ta-name" [style.color]="ta.nameColor">{{ta.name}}</span>
                         </div>
                         <div>
                             <span class="ta-email">{{ta.email}}</span>
