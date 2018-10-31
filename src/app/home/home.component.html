@@ -8,6 +8,10 @@
                         <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className">
                     </mat-form-field>
                 </form>
+                <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-dark-mode-slider">
+                    Dark Mode
+                </mat-slide-toggle>
+                <br>
                 <b>Select roster csv file</b>
                 <br>
                 <input type="file" #file (change)="initializeApp(file.files)">

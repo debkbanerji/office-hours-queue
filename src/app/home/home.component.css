@@ -25,6 +25,10 @@
     float: right;
 }
 
+.init-dark-mode-slider {
+    margin-bottom: 10px;
+}
+
 .dark-mode-slider {
     margin-left: 16px;
 }
