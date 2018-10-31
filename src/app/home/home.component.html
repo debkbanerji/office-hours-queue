@@ -37,7 +37,12 @@
                     <span class="main-header-text">{{hasElevatedPrivileges ? null: className}} Office Hours Queue</span>
                 </span>
             </div>
-            <mat-card class="student-card">
+            <mat-card class="student-card" *ngIf="!disableAddStudents || hasElevatedPrivileges">
+                <div>
+                    <mat-slide-toggle [(ngModel)]="disableAddStudents" *ngIf="hasElevatedPrivileges">
+                        Disable new additions
+                    </mat-slide-toggle>
+                </div>
                 <b class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard or enter your name
                     to add yourself to the queue</b>
                 <form (ngSubmit)="addCustomStudent()" #studentNameForm="ngForm">
@@ -77,7 +82,11 @@
                 </mat-card>
             </div>
             <div *ngIf="studentQueue.length === 0">
+                <br>
                 <p class="empty-queue-label">No students in queue</p>
+            </div>
+            <div *ngIf="disableAddStudents">
+                <p class="empty-queue-label">Currently not accepting additions to queue</p>
             </div>
         </div>
         <div class="col col-sm-4">

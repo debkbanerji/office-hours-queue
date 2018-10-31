@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
     studentQueue = [];
     taDutyList = [];
 
+    disableAddStudents: boolean = false;
+
     className: string = null;
     customStudentName: string = null;
 
@@ -121,26 +123,30 @@ export class HomeComponent implements OnInit {
 
     handleStudentSwipe(gtid: string) {
         const component = this;
-        let studentIndex = -1;
-        for (let i = 0; i < component.studentQueue.length; i++) {
-            if (component.studentQueue[i].gtid === gtid) {
-                studentIndex = i;
-                break;
-            }
-        }
-        if (studentIndex >= 0) {
-            const removedStudent = component.studentQueue[studentIndex];
-            if (Date.now() - removedStudent.startTime > component.doubleSwipeWindow) {
-                component.studentQueue.splice(studentIndex, 1);
-                component.showMessage(removedStudent.name + ' removed from queue')
-            }
+        if (component.disableAddStudents) {
+            component.showMessage('Queue is currently closed - cannot add student')
         } else {
-            component.studentQueue.push({
-                name: component.studentDirectory[gtid].name,
-                gtid: gtid,
-                startTime: Date.now()
-            });
-            component.showMessage(component.studentDirectory[gtid].name + ' added to queue')
+            let studentIndex = -1;
+            for (let i = 0; i < component.studentQueue.length; i++) {
+                if (component.studentQueue[i].gtid === gtid) {
+                    studentIndex = i;
+                    break;
+                }
+            }
+            if (studentIndex >= 0) {
+                const removedStudent = component.studentQueue[studentIndex];
+                if (Date.now() - removedStudent.startTime > component.doubleSwipeWindow) {
+                    component.studentQueue.splice(studentIndex, 1);
+                    component.showMessage(removedStudent.name + ' removed from queue')
+                }
+            } else {
+                component.studentQueue.push({
+                    name: component.studentDirectory[gtid].name,
+                    gtid: gtid,
+                    startTime: Date.now()
+                });
+                component.showMessage(component.studentDirectory[gtid].name + ' added to queue')
+            }
         }
     }
 
