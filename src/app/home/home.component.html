@@ -5,7 +5,8 @@
                 <h1 class="init-main-header">Create Office Hours Queue</h1>
                 <form>
                     <mat-form-field>
-                        <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className">
+                        <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className"
+                               (ngModelChange)="classNameChange()">
                     </mat-form-field>
                 </form>
                 <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-dark-mode-slider">
@@ -30,7 +31,7 @@
                     <span class="class-name-edit-container" *ngIf="hasElevatedPrivileges">
                         <mat-form-field>
                             <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className"
-                                   (change)="refreshElevatedPrivileges()">
+                                   (ngModelChange)="classNameChange()">
                         </mat-form-field>
                     </span>
                     <span class="main-header-text">{{hasElevatedPrivileges ? null: className}} Office Hours Queue</span>
@@ -43,7 +44,7 @@
                     <mat-form-field>
                         <input matInput placeholder="{{hasElevatedPrivileges ? 'Student' : 'Your'}} name"
                                [(ngModel)]="customStudentName"
-                               name="customStudentName" (change)="refreshPrivilegesIfElevated()">
+                               name="customStudentName" (ngModelChange)="customStudentNameChange()">
                     </mat-form-field>
                     <br>
                     <button type="submit" mat-raised-button class="btn btn-success"

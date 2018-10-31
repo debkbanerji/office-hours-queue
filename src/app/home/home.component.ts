@@ -157,6 +157,22 @@ export class HomeComponent implements OnInit {
         component.customStudentName = '';
     }
 
+    customStudentNameChange() {
+        const component = this;
+        if (/9(\d{8})/gm.exec(component.customStudentName)) {
+            component.customStudentName = ''; // Clear if someone accidentally swiped a buzzcard while this input was selected
+        }
+        component.refreshPrivilegesIfElevated();
+    }
+
+    classNameChange() {
+        const component = this;
+        if (/9(\d{8})/gm.exec(component.className)) {
+            component.className = ''; // Clear if someone accidentally swiped a buzzcard while this input was selected
+        }
+        component.refreshPrivilegesIfElevated();
+    }
+
     refreshPrivilegesIfElevated() {
         const component = this;
         if (component.hasElevatedPrivileges) {
