@@ -28,7 +28,12 @@
                 <img class="logo" src="{{LOGO_URL}}">
                 {{className}} Office Hours Queue
             </h1>
-            <b class="buzzcard-instruction">Swipe your BuzzCard to add yourself to the queue</b>
+            <form *ngIf="hasElevatedPrivileges">
+                <mat-form-field>
+                    <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className" (change)="refreshElevatedPrivileges()">
+                </mat-form-field>
+            </form>
+            <b class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard to add yourself to the queue</b>
             <div *ngFor="let student of studentQueue; let i = index">
                 <mat-card class="student-card">
                     <span class="student-name">{{student.name}}</span>
