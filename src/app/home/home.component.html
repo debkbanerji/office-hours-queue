@@ -24,16 +24,33 @@
     </div>
     <div class="row" *ngIf="appInitialized">
         <div class="col col-sm-8">
-            <h1 class="main-header">
-                <img class="logo" src="{{LOGO_URL}}">
-                {{className}} Office Hours Queue
-            </h1>
-            <form *ngIf="hasElevatedPrivileges">
-                <mat-form-field>
-                    <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className" (change)="refreshElevatedPrivileges()">
-                </mat-form-field>
-            </form>
-            <b class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard to add yourself to the queue</b>
+            <div>
+                <span class="main-header">
+                    <img class="logo" src="{{LOGO_URL}}">
+                    <span class="class-name-edit-container" *ngIf="hasElevatedPrivileges">
+                        <mat-form-field>
+                            <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className"
+                                   (change)="refreshElevatedPrivileges()">
+                        </mat-form-field>
+                    </span>
+                    <span class="main-header-text">{{hasElevatedPrivileges ? null: className}} Office Hours Queue</span>
+                </span>
+            </div>
+            <mat-card class="student-card">
+                <b class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard or enter your name
+                    to add yourself to the queue</b>
+                <form (ngSubmit)="addCustomStudent()" #studentNameForm="ngForm">
+                    <mat-form-field>
+                        <input matInput placeholder="{{hasElevatedPrivileges ? 'Student' : 'Your'}} name"
+                               [(ngModel)]="customStudentName"
+                               name="customStudentName" (change)="refreshPrivilegesIfElevated()">
+                    </mat-form-field>
+                    <br>
+                    <button type="submit" mat-raised-button class="btn btn-success"
+                            [disabled]="!(customStudentName && customStudentName.length > 0)">Add to queue
+                    </button>
+                </form>
+            </mat-card>
             <div *ngFor="let student of studentQueue; let i = index">
                 <mat-card class="student-card">
                     <span class="student-name">{{student.name}}</span>

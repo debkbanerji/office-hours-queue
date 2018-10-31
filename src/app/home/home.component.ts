@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     taDutyList = [];
 
     className: string = null;
+    customStudentName: string = null;
 
     constructor(public snackBar: MatSnackBar) {
     }
@@ -140,6 +141,26 @@ export class HomeComponent implements OnInit {
                 startTime: Date.now()
             });
             component.showMessage(component.studentDirectory[gtid].name + ' added to queue')
+        }
+    }
+
+    addCustomStudent() {
+        const component = this;
+        component.refreshPrivilegesIfElevated();
+        const nameToAdd = component.customStudentName;
+        component.studentQueue.push({
+            name: nameToAdd,
+            gtid: null,
+            startTime: Date.now()
+        });
+        component.showMessage(nameToAdd + ' added to queue');
+        component.customStudentName = '';
+    }
+
+    refreshPrivilegesIfElevated() {
+        const component = this;
+        if (component.hasElevatedPrivileges) {
+            component.refreshElevatedPrivileges();
         }
     }
 

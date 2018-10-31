@@ -1,6 +1,9 @@
 .main-header {
     margin-top: 6px;
     margin-left: 6px;
+}
+
+.main-header-text {
     font-size: 34px;
 }
 
@@ -137,7 +140,8 @@
 }
 
 .buzzcard-instruction {
-    margin-left: 6px;
+    margin-bottom: 6px;
+    font-size: large;
 }
 
 .empty-queue-label {
@@ -148,6 +152,15 @@
 .empty-duty-label {
     color: grey;
     margin-left: 16px;
+}
+
+.custom-student-input-container {
+    margin-left: 6px;
+}
+
+.class-name-edit-container {
+    margin-left: 4px;
+    margin-top: 3px;
 }
 
 .external-link {
