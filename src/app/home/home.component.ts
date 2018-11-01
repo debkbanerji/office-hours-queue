@@ -62,14 +62,19 @@ export class HomeComponent implements OnInit {
                 component.keypressTimestampBuffer = [];
                 const matchContents = bufferMatch[0];
                 const inputGTID = matchContents.substring(6);
-                if (component.studentDirectory[inputGTID]) {
-                    component.handleStudentSwipe(inputGTID);
-                } else if (component.taDirectory[inputGTID]) {
-                    component.handleTASwipe(inputGTID);
-                } else {
-                    component.showMessage('GTID not recognized');
-                }
+                component.handleSwipe(inputGTID);
             }
+        }
+    }
+
+    handleSwipe(inputGTID) {
+        const component = this;
+        if (component.studentDirectory[inputGTID]) {
+            component.handleStudentSwipe(inputGTID);
+        } else if (component.taDirectory[inputGTID]) {
+            component.handleTASwipe(inputGTID);
+        } else {
+            component.showMessage('GTID not recognized');
         }
     }
 
@@ -154,21 +159,22 @@ export class HomeComponent implements OnInit {
         const component = this;
         component.refreshPrivilegesIfElevated();
         const nameToAdd = component.customStudentName;
-        component.studentQueue.push({
-            name: nameToAdd,
-            gtid: null,
-            startTime: Date.now()
-        });
-        component.showMessage(nameToAdd + ' added to queue');
-        component.customStudentName = '';
-    }
-
-    customStudentNameChange() {
-        const component = this;
-        if (/9(\d{8})/gm.exec(component.customStudentName)) {
-            component.customStudentName = ''; // Clear if someone accidentally swiped a buzzcard while this input was selected
+        const swipeMatch = /;1570=9(\d{8})/gm.exec(nameToAdd);
+        if (swipeMatch) {
+            component.keypressBuffer = [];
+            component.keypressTimestampBuffer = [];
+            const matchContents = swipeMatch[0];
+            const inputGTID = matchContents.substring(6);
+            component.handleSwipe(inputGTID);
+        } else {
+            component.studentQueue.push({
+                name: nameToAdd,
+                gtid: null,
+                startTime: Date.now()
+            });
+            component.showMessage(nameToAdd + ' added to queue');
         }
-        component.refreshPrivilegesIfElevated();
+        component.customStudentName = '';
     }
 
     classNameChange() {
