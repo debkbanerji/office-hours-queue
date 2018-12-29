@@ -9,6 +9,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 export class TimeInfoDialogComponent {
 
     timeInfoTable = [];
+    displayedColumns: string[];
 
     constructor(
         public dialogRef: MatDialogRef<TimeInfoDialogComponent>,
@@ -38,6 +39,7 @@ export class TimeInfoDialogComponent {
             component.timeInfoTable.push(row)
         }
         console.log(component.timeInfoTable);
+        component.displayedColumns = ['name'];
     }
 
     onNoClick(): void {

@@ -11,6 +11,7 @@ import {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatTableModule,
     MatTooltipModule
 } from "@angular/material";
 import {FormsModule} from "@angular/forms";
@@ -42,6 +43,7 @@ const routes: Routes = [
         MatInputModule,
         MatSlideToggleModule,
         MatSnackBarModule,
+        MatTableModule,
         MatTooltipModule,
         RouterModule.forRoot(routes)
     ],
