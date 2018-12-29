@@ -11,18 +11,21 @@ export class TimeInfoDialogComponent {
     timeInfoTable = [];
     displayedColumns: string[];
     appStartString: string;
+    totalResolvedStudents: number;
 
     constructor(
         public dialogRef: MatDialogRef<TimeInfoDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         const component = this;
         const appStartDate = new Date();
+        component.totalResolvedStudents = 0;
         appStartDate.setTime(data.appStartTime);
         component.appStartString = appStartDate.toTimeString();
         const currentTime = Date.now();
         const gtids = Object.keys(data.taDirectory);
         for (let i = 0; i < gtids.length; i++) {
             const gtid = gtids[i];
+            component.totalResolvedStudents += data.taTotalResolvedStudentsMap[gtid];
             let totalTime = data.taTotalTimeMap[gtid];
             if (data.taCheckInTimeMap[gtid] !== 0) {
                 totalTime += currentTime - data.taCheckInTimeMap[gtid];
