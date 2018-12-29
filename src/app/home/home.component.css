@@ -131,6 +131,10 @@
     font-weight: bold;
 }
 
+.time-info-btn {
+    margin-left: 15px;
+}
+
 .student-queue-container {
     width: 66%;
 }

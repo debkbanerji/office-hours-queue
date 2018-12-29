@@ -1,6 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {MatSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
 
 @Component({
     selector: 'app-home',
@@ -31,12 +32,16 @@ export class HomeComponent implements OnInit {
     studentQueue = [];
     taDutyList = [];
 
+    taCheckInTimeMap = {};
+    taTotalTimeMap = {};
+
     disableAddStudents: boolean = false;
 
     className: string = null;
     customStudentName: string = null;
 
-    constructor(public snackBar: MatSnackBar) {
+    constructor(public snackBar: MatSnackBar, public dialog: MatDialog,
+    ) {
     }
 
     ngOnInit() {
@@ -278,6 +283,18 @@ export class HomeComponent implements OnInit {
         arr[i1] = arr[i2];
         arr[i2] = temp;
     };
+
+    openTimeInfoDialog(): void {
+        const component = this;
+        this.dialog.open(TimeInfoDialogComponent, {
+            data: {
+                'taCheckInTimeMap': component.taCheckInTimeMap,
+                'taTotalTimeMap': component.taTotalTimeMap,
+                'taDirectory': component.taDirectory,
+                'isDarkTheme': component.isDarkTheme
+            }
+        });
+    }
 
     @HostListener('window:beforeunload', ['$event'])
     doSomething($event) {

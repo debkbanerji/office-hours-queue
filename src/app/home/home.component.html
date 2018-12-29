@@ -34,7 +34,8 @@
                                    (ngModelChange)="classNameChange()">
                         </mat-form-field>
                     </span>
-                    <span class="main-header-text">{{hasElevatedPrivileges ? null: className}} Office Hours Queue</span>
+                    <span class="main-header-text">{{hasElevatedPrivileges ? null : className}}
+                        Office Hours Queue</span>
                 </span>
             </div>
             <mat-card class="student-card" *ngIf="!disableAddStudents || hasElevatedPrivileges">
@@ -129,6 +130,11 @@
             <div *ngIf="taDutyList.length === 0">
                 <span class="empty-duty-label">No T.A.s on duty</span>
             </div>
+            <button mat-raised-button *ngIf="hasElevatedPrivileges"
+                    class="btn btn-info time-info-btn"
+                    (click)="openTimeInfoDialog()">
+                View Time Info
+            </button>
         </div>
     </div>
     <div class="page-footer" *ngIf="!appInitialized && !isInitializing">

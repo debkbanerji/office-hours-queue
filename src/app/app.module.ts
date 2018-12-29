@@ -5,7 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from './home/home.component';
 import {
     MatButtonModule,
-    MatCardModule,
+    MatCardModule, MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import 'hammerjs';
+import {TimeInfoDialogComponent} from './dialogs/time-info-dialog/time-info-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -26,7 +27,8 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         AppComponent,
-        HomeComponent
+        HomeComponent,
+        TimeInfoDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -34,6 +36,7 @@ const routes: Routes = [
         FormsModule,
         MatButtonModule,
         MatCardModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatProgressSpinnerModule,
         MatInputModule,
@@ -41,6 +44,9 @@ const routes: Routes = [
         MatSnackBarModule,
         MatTooltipModule,
         RouterModule.forRoot(routes)
+    ],
+    entryComponents: [
+        TimeInfoDialogComponent
     ],
     providers: [],
     bootstrap: [AppComponent]
