@@ -135,6 +135,15 @@
     margin-left: 15px;
 }
 
+.manual-ta-login-container {
+    margin-left: 15px;
+    margin-bottom: 15px
+}
+
+.manual-ta-login-button {
+    margin-left: 15px;
+}
+
 .student-queue-container {
     width: 66%;
 }

@@ -44,6 +44,8 @@ export class HomeComponent implements OnInit {
     className: string = null;
     customStudentName: string = null;
 
+    taManualGTID: string = null;
+
     constructor(public snackBar: MatSnackBar, public dialog: MatDialog,
     ) {
     }
@@ -190,6 +192,27 @@ export class HomeComponent implements OnInit {
             component.showMessage(nameToAdd + ' added to queue');
         }
         component.customStudentName = '';
+    }
+
+    addTAUsingGTID() {
+        const component = this;
+        component.refreshPrivilegesIfElevated();
+        const manualGTID = component.taManualGTID;
+        const swipeMatch = /;1570=9(\d{8})/gm.exec(manualGTID);
+        if (swipeMatch) {
+            component.keypressBuffer = [];
+            component.keypressTimestampBuffer = [];
+            const matchContents = swipeMatch[0];
+            const inputGTID = matchContents.substring(6);
+            component.handleSwipe(inputGTID);
+        } else {
+            if (component.taDirectory[manualGTID]) {
+                component.handleSwipe(manualGTID);
+            } else {
+                component.showMessage('Could not find T.A. G.T.I.D.')
+            }
+        }
+        component.taManualGTID = '';
     }
 
     classNameChange() {

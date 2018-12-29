@@ -134,6 +134,21 @@
             <div *ngIf="taDutyList.length === 0">
                 <p class="empty-duty-label">No T.A.s on duty</p>
             </div>
+            <mat-card class="manual-ta-login-container">
+                <form (ngSubmit)="addTAUsingGTID()" #taGTIDForm="ngForm">
+                    <div>Enter T.A. G.T.I.D. or swipe BuzzCard to login</div>
+                    <mat-form-field>
+                        <input matInput placeholder="T.A. G.T.I.D."
+                               [(ngModel)]="taManualGTID"
+                               name="taManualGTID"
+                               autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button
+                            class="btn btn-success manual-ta-login-button">
+                        T.A. Login
+                    </button>
+                </form>
+            </mat-card>
             <button mat-raised-button *ngIf="hasElevatedPrivileges && trackStats"
                     class="btn btn-info time-info-btn"
                     (click)="openTimeInfoDialog()">
