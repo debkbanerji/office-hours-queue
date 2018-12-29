@@ -1,6 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {MatSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
 
 @Component({
     selector: 'app-home',
@@ -25,18 +26,26 @@ export class HomeComponent implements OnInit {
 
     hasElevatedPrivileges: boolean = false;
     elevatedPrivilegesTimeout = null;
+    currentlyElevatedGTID = null;
 
     studentDirectory = {};
     taDirectory = {};
     studentQueue = [];
     taDutyList = [];
 
+    trackStats: boolean = false;
+    taCheckInTimeMap = {};
+    taTotalTimeMap = {};
+    taTotalResolvedStudentsMap = {};
+    appStartTime: number;
+
     disableAddStudents: boolean = false;
 
     className: string = null;
     customStudentName: string = null;
 
-    constructor(public snackBar: MatSnackBar) {
+    constructor(public snackBar: MatSnackBar, public dialog: MatDialog,
+    ) {
     }
 
     ngOnInit() {
@@ -50,6 +59,7 @@ export class HomeComponent implements OnInit {
             }
             component.checkForCardSwipe();
         };
+        component.appStartTime = Date.now();
     }
 
     checkForCardSwipe() {
@@ -84,6 +94,7 @@ export class HomeComponent implements OnInit {
             clearTimeout(component.elevatedPrivilegesTimeout);
         }
         component.hasElevatedPrivileges = false;
+        component.currentlyElevatedGTID = null;
     }
 
     refreshElevatedPrivileges() {
@@ -111,6 +122,7 @@ export class HomeComponent implements OnInit {
             }
         }
         if (taIndex >= 0) {
+            component.currentlyElevatedGTID = gtid;
             component.refreshElevatedPrivileges()
         } else {
             let taToAdd = component.taDirectory[gtid];
@@ -123,6 +135,9 @@ export class HomeComponent implements OnInit {
                 imageURL: taToAdd.imageURL
             });
             component.showMessage(taToAdd.name + ' is now on duty');
+            if (component.trackStats) {
+                component.taCheckInTimeMap[gtid] = Date.now()
+            }
         }
     }
 
@@ -223,6 +238,9 @@ export class HomeComponent implements OnInit {
                                 ),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
+                            component.taCheckInTimeMap[lineSplit[2]] = 0;
+                            component.taTotalTimeMap[lineSplit[2]] = 0;
+                            component.taTotalResolvedStudentsMap[lineSplit[2]] = 0;
                         } else {
                             console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
                         }
@@ -259,13 +277,24 @@ export class HomeComponent implements OnInit {
     }
 
     public removeStudent(index) {
-        this.studentQueue = this.removeAtIndex(this.studentQueue, index);
-        this.refreshElevatedPrivileges();
+        const component = this;
+        if (component.hasElevatedPrivileges && component.trackStats) {
+            component.taTotalResolvedStudentsMap[component.currentlyElevatedGTID] += 1;
+        }
+        component.studentQueue = component.removeAtIndex(component.studentQueue, index);
+        component.refreshElevatedPrivileges();
     }
 
     public removeTA(index) {
-        this.taDutyList = this.removeAtIndex(this.taDutyList, index);
-        this.refreshElevatedPrivileges();
+        const component = this;
+        if (component.trackStats) {
+            const ta = component.taDutyList[index];
+            const checkInTime = component.taCheckInTimeMap[ta.gtid];
+            component.taTotalTimeMap[ta.gtid] = component.taTotalTimeMap[ta.gtid] + (Date.now() - checkInTime);
+            component.taCheckInTimeMap[ta.gtid] = 0;
+        }
+        component.taDutyList = component.removeAtIndex(this.taDutyList, index);
+        component.refreshElevatedPrivileges();
     }
 
     public removeAtIndex(arr, index) {
@@ -279,8 +308,23 @@ export class HomeComponent implements OnInit {
         arr[i2] = temp;
     };
 
+    openTimeInfoDialog(): void {
+        const component = this;
+        component.refreshPrivilegesIfElevated();
+        this.dialog.open(TimeInfoDialogComponent, {
+            data: {
+                'taCheckInTimeMap': component.taCheckInTimeMap,
+                'taTotalTimeMap': component.taTotalTimeMap,
+                'taTotalResolvedStudentsMap': component.taTotalResolvedStudentsMap,
+                'taDirectory': component.taDirectory,
+                'appStartTime': component.appStartTime,
+                'isDarkTheme': component.isDarkTheme
+            }
+        });
+    }
+
     @HostListener('window:beforeunload', ['$event'])
     doSomething($event) {
-        if (this.studentQueue.length > 0) $event.returnValue = 'Warning: queue data will be lost';
+        if (this.studentQueue.length > 0 || this.trackStats) $event.returnValue = 'Warning: data will be lost';
     }
 }

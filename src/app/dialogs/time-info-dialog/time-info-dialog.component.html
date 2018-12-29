@@ -1,0 +1,41 @@
+<div [ngClass]="{'dark-theme': data.isDarkTheme}" style="padding: 24px">
+    <h1 mat-dialog-title>Stats</h1>
+    <p>Application running since {{appStartString}}
+        <br>
+        Resolved a total of {{totalResolvedStudents}} student{{totalResolvedStudents === 1 ? '' : 's'}}</p>
+    <div mat-dialog-content>
+        <table mat-table [dataSource]="timeInfoTable" class="mat-elevation-z2">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>T.A. Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <td mat-cell *matCellDef="let ta">{{ta.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </ng-container>
+
+            <ng-container matColumnDef="timeOnDuty">
+                <th mat-header-cell *matHeaderCellDef>Total Time on Duty<br>(Since Application Start)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <td mat-cell *matCellDef="let ta">{{ta.hours}} hour{{ta.hours === 1 ? '' : 's'}}, {{ta.minutes}}
+                    minute{{ta.minutes === 1 ? '' : 's'}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalResolvedStudents">
+                <th mat-header-cell *matHeaderCellDef>Total Resolved Students<br>(Since Application Start)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <td mat-cell *matCellDef="let ta">{{ta.totalResolvedStudents}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </ng-container>
+
+            <ng-container matColumnDef="currentlyOnDuty">
+                <th mat-header-cell *matHeaderCellDef>Currently on Duty?</th>
+                <td mat-cell *matCellDef="let ta"
+                    [ngClass]="{'text-green' : ta.currentlyOnDuty, 'text-yellow' : !ta.currentlyOnDuty}">{{ta.currentlyOnDuty ? 'yes' : 'no'}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="close-button" [mat-dialog-close]="false">Close</button>
+    </div>
+</div>
