@@ -315,6 +315,7 @@ export class HomeComponent implements OnInit {
             data: {
                 'taCheckInTimeMap': component.taCheckInTimeMap,
                 'taTotalTimeMap': component.taTotalTimeMap,
+                'taTotalResolvedStudentsMap': component.taTotalResolvedStudentsMap,
                 'taDirectory': component.taDirectory,
                 'appStartTime': component.appStartTime,
                 'isDarkTheme': component.isDarkTheme

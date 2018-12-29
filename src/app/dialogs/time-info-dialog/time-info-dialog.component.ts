@@ -38,11 +38,12 @@ export class TimeInfoDialogComponent {
                 'seconds': seconds,
                 'minutes': minutes,
                 'hours': totalTime,
+                'totalResolvedStudents': data.taTotalResolvedStudentsMap[gtid],
                 'currentlyOnDuty': data.taCheckInTimeMap[gtid] !== 0
             };
             component.timeInfoTable.push(row)
         }
-        component.displayedColumns = ['name', 'timeOnDuty', 'currentlyOnDuty'];
+        component.displayedColumns = ['name', 'timeOnDuty', 'totalResolvedStudents', 'currentlyOnDuty'];
     }
 
     onNoClick(): void {
