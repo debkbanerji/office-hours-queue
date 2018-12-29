@@ -10,11 +10,15 @@ export class TimeInfoDialogComponent {
 
     timeInfoTable = [];
     displayedColumns: string[];
+    appStartString: string;
 
     constructor(
         public dialogRef: MatDialogRef<TimeInfoDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         const component = this;
+        const appStartDate = new Date();
+        appStartDate.setTime(data.appStartTime);
+        component.appStartString = appStartDate.toTimeString();
         const currentTime = Date.now();
         const gtids = Object.keys(data.taDirectory);
         for (let i = 0; i < gtids.length; i++) {
