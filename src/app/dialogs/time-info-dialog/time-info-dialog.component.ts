@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'app-time-info-dialog',
@@ -8,9 +8,36 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class TimeInfoDialogComponent {
 
+    timeInfoTable = [];
+
     constructor(
         public dialogRef: MatDialogRef<TimeInfoDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+        const component = this;
+        const currentTime = Date.now();
+        const gtids = Object.keys(data.taDirectory);
+        for (let i = 0; i < gtids.length; i++) {
+            const gtid = gtids[i];
+            let totalTime = data.taTotalTimeMap[gtid];
+            if (data.taCheckInTimeMap[gtid] !== 0) {
+                totalTime += currentTime - data.taCheckInTimeMap[gtid];
+            }
+            totalTime = Math.floor(totalTime / 1000);
+            const seconds = totalTime;
+            totalTime = Math.floor(totalTime / 60);
+            const minutes = totalTime;
+            totalTime = Math.floor(totalTime / 60);
+            let row = {
+                'gtid': gtid,
+                'name': data.taDirectory[gtid]['name'],
+                'seconds': seconds,
+                'minutes': minutes,
+                'hours': totalTime,
+                'currentlyOnDuty': data.taCheckInTimeMap[gtid] !== 0
+            };
+            component.timeInfoTable.push(row)
+        }
+        console.log(component.timeInfoTable);
     }
 
     onNoClick(): void {

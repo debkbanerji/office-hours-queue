@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
 
     taCheckInTimeMap = {};
     taTotalTimeMap = {};
+    appStartTime: number;
 
     disableAddStudents: boolean = false;
 
@@ -55,6 +56,7 @@ export class HomeComponent implements OnInit {
             }
             component.checkForCardSwipe();
         };
+        component.appStartTime = Date.now();
     }
 
     checkForCardSwipe() {
@@ -128,6 +130,7 @@ export class HomeComponent implements OnInit {
                 imageURL: taToAdd.imageURL
             });
             component.showMessage(taToAdd.name + ' is now on duty');
+            component.taCheckInTimeMap[gtid] = Date.now()
         }
     }
 
@@ -228,6 +231,8 @@ export class HomeComponent implements OnInit {
                                 ),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
+                            component.taCheckInTimeMap[lineSplit[2]] = 0;
+                            component.taTotalTimeMap[lineSplit[2]] = 0;
                         } else {
                             console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
                         }
@@ -269,8 +274,13 @@ export class HomeComponent implements OnInit {
     }
 
     public removeTA(index) {
-        this.taDutyList = this.removeAtIndex(this.taDutyList, index);
-        this.refreshElevatedPrivileges();
+        const component = this;
+        const ta = component.taDutyList[index];
+        const checkInTime = component.taCheckInTimeMap[ta.gtid];
+        component.taTotalTimeMap[ta.gtid] = component.taTotalTimeMap[ta.gtid] + (Date.now() - checkInTime);
+        component.taCheckInTimeMap[ta.gtid] = 0;
+        component.taDutyList = component.removeAtIndex(this.taDutyList, index);
+        component.refreshElevatedPrivileges();
     }
 
     public removeAtIndex(arr, index) {
@@ -291,6 +301,7 @@ export class HomeComponent implements OnInit {
                 'taCheckInTimeMap': component.taCheckInTimeMap,
                 'taTotalTimeMap': component.taTotalTimeMap,
                 'taDirectory': component.taDirectory,
+                'appStartTime': component.appStartTime,
                 'isDarkTheme': component.isDarkTheme
             }
         });
