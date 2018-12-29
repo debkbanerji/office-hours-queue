@@ -28,9 +28,9 @@ export class TimeInfoDialogComponent {
                 totalTime += currentTime - data.taCheckInTimeMap[gtid];
             }
             totalTime = Math.floor(totalTime / 1000);
-            const seconds = totalTime;
+            const seconds = totalTime % 60;
             totalTime = Math.floor(totalTime / 60);
-            const minutes = totalTime;
+            const minutes = totalTime % 60;
             totalTime = Math.floor(totalTime / 60);
             let row = {
                 'gtid': gtid,
