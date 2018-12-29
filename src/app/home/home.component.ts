@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     studentQueue = [];
     taDutyList = [];
 
+    trackStats: boolean = false;
     taCheckInTimeMap = {};
     taTotalTimeMap = {};
     appStartTime: number;
@@ -130,7 +131,9 @@ export class HomeComponent implements OnInit {
                 imageURL: taToAdd.imageURL
             });
             component.showMessage(taToAdd.name + ' is now on duty');
-            component.taCheckInTimeMap[gtid] = Date.now()
+            if (component.trackStats) {
+                component.taCheckInTimeMap[gtid] = Date.now()
+            }
         }
     }
 
@@ -275,10 +278,12 @@ export class HomeComponent implements OnInit {
 
     public removeTA(index) {
         const component = this;
-        const ta = component.taDutyList[index];
-        const checkInTime = component.taCheckInTimeMap[ta.gtid];
-        component.taTotalTimeMap[ta.gtid] = component.taTotalTimeMap[ta.gtid] + (Date.now() - checkInTime);
-        component.taCheckInTimeMap[ta.gtid] = 0;
+        if (component.trackStats) {
+            const ta = component.taDutyList[index];
+            const checkInTime = component.taCheckInTimeMap[ta.gtid];
+            component.taTotalTimeMap[ta.gtid] = component.taTotalTimeMap[ta.gtid] + (Date.now() - checkInTime);
+            component.taCheckInTimeMap[ta.gtid] = 0;
+        }
         component.taDutyList = component.removeAtIndex(this.taDutyList, index);
         component.refreshElevatedPrivileges();
     }
@@ -310,6 +315,6 @@ export class HomeComponent implements OnInit {
 
     @HostListener('window:beforeunload', ['$event'])
     doSomething($event) {
-        if (this.studentQueue.length > 0) $event.returnValue = 'Warning: queue data will be lost';
+        if (this.studentQueue.length > 0 || this.trackStats) $event.returnValue = 'Warning: data will be lost';
     }
 }

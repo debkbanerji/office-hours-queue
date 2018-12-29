@@ -9,8 +9,12 @@
                                (ngModelChange)="classNameChange()">
                     </mat-form-field>
                 </form>
-                <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-dark-mode-slider">
+                <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-slider">
                     Dark Mode
+                </mat-slide-toggle>
+                <br>
+                <mat-slide-toggle [(ngModel)]="trackStats" class="init-slider">
+                    Enable T.A. Time Stats (Warning: these are erased once the page is refreshed)
                 </mat-slide-toggle>
                 <br>
                 <b>Select roster csv file</b>
@@ -130,10 +134,10 @@
             <div *ngIf="taDutyList.length === 0">
                 <p class="empty-duty-label">No T.A.s on duty</p>
             </div>
-            <button mat-raised-button *ngIf="hasElevatedPrivileges"
+            <button mat-raised-button *ngIf="hasElevatedPrivileges && trackStats"
                     class="btn btn-info time-info-btn"
                     (click)="openTimeInfoDialog()">
-                View Time Info
+                View Stats
             </button>
         </div>
     </div>
