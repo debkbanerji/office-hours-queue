@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
 
     hasElevatedPrivileges: boolean = false;
     elevatedPrivilegesTimeout = null;
+    currentlyElevatedGTID = null;
 
     studentDirectory = {};
     taDirectory = {};
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit {
     trackStats: boolean = false;
     taCheckInTimeMap = {};
     taTotalTimeMap = {};
+    taTotalResolvedStudentsMap = {};
     appStartTime: number;
 
     disableAddStudents: boolean = false;
@@ -92,6 +94,7 @@ export class HomeComponent implements OnInit {
             clearTimeout(component.elevatedPrivilegesTimeout);
         }
         component.hasElevatedPrivileges = false;
+        component.currentlyElevatedGTID = null;
     }
 
     refreshElevatedPrivileges() {
@@ -119,6 +122,7 @@ export class HomeComponent implements OnInit {
             }
         }
         if (taIndex >= 0) {
+            component.currentlyElevatedGTID = gtid;
             component.refreshElevatedPrivileges()
         } else {
             let taToAdd = component.taDirectory[gtid];
@@ -236,6 +240,7 @@ export class HomeComponent implements OnInit {
                             };
                             component.taCheckInTimeMap[lineSplit[2]] = 0;
                             component.taTotalTimeMap[lineSplit[2]] = 0;
+                            component.taTotalResolvedStudentsMap[lineSplit[2]] = 0;
                         } else {
                             console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
                         }
@@ -272,8 +277,12 @@ export class HomeComponent implements OnInit {
     }
 
     public removeStudent(index) {
-        this.studentQueue = this.removeAtIndex(this.studentQueue, index);
-        this.refreshElevatedPrivileges();
+        const component = this;
+        if (component.hasElevatedPrivileges && component.trackStats) {
+            component.taTotalResolvedStudentsMap[component.currentlyElevatedGTID] += 1;
+        }
+        component.studentQueue = component.removeAtIndex(component.studentQueue, index);
+        component.refreshElevatedPrivileges();
     }
 
     public removeTA(index) {
