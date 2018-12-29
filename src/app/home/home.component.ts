@@ -296,6 +296,7 @@ export class HomeComponent implements OnInit {
 
     openTimeInfoDialog(): void {
         const component = this;
+        component.refreshPrivilegesIfElevated();
         this.dialog.open(TimeInfoDialogComponent, {
             data: {
                 'taCheckInTimeMap': component.taCheckInTimeMap,
