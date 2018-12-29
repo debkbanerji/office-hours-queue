@@ -23,6 +23,7 @@ export class TimeInfoDialogComponent {
             if (data.taCheckInTimeMap[gtid] !== 0) {
                 totalTime += currentTime - data.taCheckInTimeMap[gtid];
             }
+            console.log([data.taDirectory[gtid]['name'], totalTime]);
             totalTime = Math.floor(totalTime / 1000);
             const seconds = totalTime;
             totalTime = Math.floor(totalTime / 60);
@@ -39,7 +40,7 @@ export class TimeInfoDialogComponent {
             component.timeInfoTable.push(row)
         }
         console.log(component.timeInfoTable);
-        component.displayedColumns = ['name'];
+        component.displayedColumns = ['name', 'timeOnDuty', 'currentlyOnDuty'];
     }
 
     onNoClick(): void {
