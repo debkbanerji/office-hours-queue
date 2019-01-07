@@ -15,6 +15,10 @@
                     Dark Mode
                 </mat-slide-toggle>
                 <br>
+                <mat-slide-toggle [(ngModel)]="showParticles" class="init-slider" (change)="toggleParticles()">
+                    Particle Effects
+                </mat-slide-toggle>
+                <br>
                 <mat-slide-toggle [(ngModel)]="trackStats" class="init-slider">
                     Enable T.A. Time Stats (Warning: these are erased once the page is refreshed)
                 </mat-slide-toggle>
@@ -141,9 +145,14 @@
                     </button>
                 </form>
                 <div *ngIf="hasElevatedPrivileges">
-                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider"
+                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="login-utility-slider"
                                       (change)="refreshElevatedPrivileges()">
                         Dark Mode
+                    </mat-slide-toggle>
+                    <br>
+                    <mat-slide-toggle [(ngModel)]="showParticles" class="login-utility-slider"
+                                      (change)="toggleParticles(); refreshElevatedPrivileges();">
+                        Particle Effects
                     </mat-slide-toggle>
                     <br *ngIf="trackStats">
                     <button mat-raised-button *ngIf="trackStats"

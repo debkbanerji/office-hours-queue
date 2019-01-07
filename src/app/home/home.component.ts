@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 declare let particlesJS: any;
 
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit {
     privilegesTimeoutMilliseconds = 10000;
     version = environment.VERSION;
     isDarkTheme: boolean = false;
+    showParticles: boolean = false;
     LOGO_URL = '/assets/images/Buzz.png';
 
     appInitialized: boolean = false;
@@ -64,8 +66,16 @@ export class HomeComponent implements OnInit {
             component.checkForCardSwipe();
         };
         component.appStartTime = Date.now();
-        particlesJS.load('particles-js-target', 'assets/json/particles-js-config.json', function () {
-        });
+    }
+
+    toggleParticles() {
+        if (this.showParticles) {
+            window.pJSDom = [];
+            particlesJS.load('particles-js-target', 'assets/json/particles-js-config.json', function () {
+            });
+        } else {
+            window.pJSDom[0].pJS.fn.vendors.destroypJS()
+        }
     }
 
     checkForCardSwipe() {
