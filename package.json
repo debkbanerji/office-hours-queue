@@ -1,6 +1,6 @@
 {
     "name": "office-hours-queue",
-    "version": "2018.12.29",
+    "version": "2018.1.7",
     "scripts": {
         "ng": "ng",
         "develop": "ng serve",
