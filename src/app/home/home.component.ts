@@ -3,6 +3,8 @@ import {environment} from "../../environments/environment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
 
+declare let particlesJS: any;
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -62,6 +64,8 @@ export class HomeComponent implements OnInit {
             component.checkForCardSwipe();
         };
         component.appStartTime = Date.now();
+        particlesJS.load('particles-js-target', 'assets/json/particles-js-config.json', function () {
+        });
     }
 
     checkForCardSwipe() {
