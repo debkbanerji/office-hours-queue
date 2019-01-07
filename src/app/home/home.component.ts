@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
 
     toggleParticles() {
         // Used to get around Angular not finding property pJSDom on type of window
-        let tempWindow: any = window;
+        const tempWindow: any = window;
         if (this.showParticles) {
             tempWindow.pJSDom = [];
             particlesJS.load('particles-js-target', 'assets/json/particles-js-config.json', function () {
