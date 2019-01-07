@@ -24,16 +24,12 @@
     margin-bottom: 8px;
 }
 
-.elevate-privilege-control {
-    float: right;
-}
-
 .init-slider {
     margin-bottom: 10px;
 }
 
 .dark-mode-slider {
-    margin-left: 16px;
+    margin-bottom: 5px;
 }
 
 .init-main-header {
@@ -132,7 +128,7 @@
 }
 
 .time-info-btn {
-    margin-left: 15px;
+    margin-bottom: 5px;
 }
 
 .manual-ta-login-container {

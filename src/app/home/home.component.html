@@ -98,16 +98,6 @@
         <div class="col col-sm-4">
             <div class="ta-duty-header">
                 <span>T.A.s on Duty</span>
-                <div class="elevate-privilege-control">
-                    <mat-slide-toggle *ngIf="hasElevatedPrivileges" [(ngModel)]="isDarkTheme"
-                                      (change)="refreshElevatedPrivileges()" class="dark-mode-slider">
-                        Dark Mode
-                    </mat-slide-toggle>
-                    &nbsp;
-                    <button mat-raised-button (click)="unelevatePrivileges()"
-                            *ngIf="hasElevatedPrivileges">Finish Editing
-                    </button>
-                </div>
             </div>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
@@ -148,12 +138,22 @@
                         T.A. Login
                     </button>
                 </form>
+                <div *ngIf="hasElevatedPrivileges">
+                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider"
+                                      (change)="refreshElevatedPrivileges()">
+                        Dark Mode
+                    </mat-slide-toggle>
+                    <br *ngIf="trackStats">
+                    <button mat-raised-button *ngIf="trackStats"
+                            class="btn btn-info time-info-btn"
+                            (click)="openTimeInfoDialog()">
+                        View Stats
+                    </button>
+                    <br>
+                    <button mat-raised-button class="btn btn-success" (click)="unelevatePrivileges()">Finish Editing
+                    </button>
+                </div>
             </mat-card>
-            <button mat-raised-button *ngIf="hasElevatedPrivileges && trackStats"
-                    class="btn btn-info time-info-btn"
-                    (click)="openTimeInfoDialog()">
-                View Stats
-            </button>
         </div>
     </div>
     <div class="page-footer" *ngIf="!appInitialized && !isInitializing">
