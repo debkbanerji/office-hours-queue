@@ -158,14 +158,13 @@
                                       (change)="toggleParticles(); refreshElevatedPrivileges();">
                         Particle Effects
                     </mat-slide-toggle>
-                    <br *ngIf="trackStats">
-                    <button mat-raised-button *ngIf="trackStats"
-                            class="btn btn-info time-info-btn"
-                            (click)="openTimeInfoDialog()">
-                        View Stats
-                    </button>
                     <br>
                     <button mat-raised-button class="btn btn-success" (click)="unelevatePrivileges()">Finish Editing
+                    </button>
+                    &nbsp;
+                    <button mat-raised-button *ngIf="trackStats"
+                            (click)="openTimeInfoDialog()">
+                        View Stats
                     </button>
                 </div>
             </mat-card>
