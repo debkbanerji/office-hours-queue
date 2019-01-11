@@ -2,7 +2,8 @@
     <h1 mat-dialog-title>Stats</h1>
     <p>Application running since {{appStartString}}
         <br>
-        Resolved a total of {{totalResolvedStudents}} student{{totalResolvedStudents === 1 ? '' : 's'}}</p>
+        <span *ngIf="canViewAllTimeData">Resolved a total of {{totalResolvedStudents}} student{{totalResolvedStudents === 1 ? '' : 's'}}</span>
+    </p>
     <div mat-dialog-content>
         <table mat-table [dataSource]="timeInfoTable" class="mat-elevation-z2">
 

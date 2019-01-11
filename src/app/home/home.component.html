@@ -19,10 +19,13 @@
                     Particle Effects
                 </mat-slide-toggle>
                 <br>
-                <mat-slide-toggle [(ngModel)]="trackStats" class="init-slider">
-                    Enable T.A. Time Stats (Warning: these are erased once the page is refreshed)
-                </mat-slide-toggle>
-                <br>
+                <div class="init-slider">
+                    <mat-slide-toggle [(ngModel)]="trackStats">
+                        Enable T.A. Time Stats
+                    </mat-slide-toggle>
+                    <br>
+                    <small>Warning: These are erased once the page is refreshed</small>
+                </div>
                 <b>Select roster csv file</b>
                 <br>
                 <input type="file" #file (change)="initializeApp(file.files)">
@@ -137,6 +140,7 @@
                         <input matInput placeholder="T.A. G.T.I.D."
                                [(ngModel)]="taManualGTID"
                                name="taManualGTID"
+                               type="password"
                                autocomplete="off">
                     </mat-form-field>
                     <button mat-raised-button

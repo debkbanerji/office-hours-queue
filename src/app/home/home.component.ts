@@ -2,7 +2,6 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 declare let particlesJS: any;
 
@@ -275,6 +274,7 @@ export class HomeComponent implements OnInit {
                                         )
                                     )
                                 ),
+                                canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[5]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[5]),
                                 imageURL: lineSplit.length > 7 ? lineSplit[7] : null
                             };
                             component.taCheckInTimeMap[lineSplit[2]] = 0;
@@ -357,6 +357,7 @@ export class HomeComponent implements OnInit {
                 'taTotalResolvedStudentsMap': component.taTotalResolvedStudentsMap,
                 'taDirectory': component.taDirectory,
                 'appStartTime': component.appStartTime,
+                'currentlyElevatedGTID': component.currentlyElevatedGTID,
                 'isDarkTheme': component.isDarkTheme
             }
         });
