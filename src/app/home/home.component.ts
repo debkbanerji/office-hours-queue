@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
+import {ActivatedRoute, Router} from "@angular/router";
 
 declare let particlesJS: any;
 
@@ -49,12 +50,18 @@ export class HomeComponent implements OnInit {
 
     taManualGTID: string = null;
 
-    constructor(public snackBar: MatSnackBar, public dialog: MatDialog,
+    constructor(public snackBar: MatSnackBar,
+                public dialog: MatDialog,
+                private router: Router,
+                private route: ActivatedRoute,
     ) {
     }
 
     ngOnInit() {
         const component = this;
+        component.route.queryParams.subscribe(params => {
+            component.isDarkTheme = (params['dark-mode'] == 'true');
+        });
         document.onkeypress = function (e) {
             component.keypressBuffer.push(String.fromCharCode(e.keyCode));
             component.keypressTimestampBuffer.push(Date.now());
@@ -65,6 +72,14 @@ export class HomeComponent implements OnInit {
             component.checkForCardSwipe();
         };
         component.appStartTime = Date.now();
+    }
+
+    onDarkModeChange() {
+        this.router.navigate(['/'], {queryParams: {'dark-mode': this.isDarkTheme}});
+    }
+
+    openGenerateRosterPage() {
+        this.router.navigate(['/generate-roster'], {queryParams: {'dark-mode': this.isDarkTheme}});
     }
 
     toggleParticles() {

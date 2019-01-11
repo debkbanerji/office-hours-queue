@@ -1,0 +1,13 @@
+.init-main-header {
+    margin-top: 6px;
+    font-size: 28px;
+}
+
+#init-app-container {
+    margin: 5px;
+    width: 100%;
+}
+
+#init-app-card {
+    width: 100%;
+}

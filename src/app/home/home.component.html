@@ -11,7 +11,7 @@
                                (ngModelChange)="classNameChange()">
                     </mat-form-field>
                 </form>
-                <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-slider">
+                <mat-slide-toggle [(ngModel)]="isDarkTheme" class="init-slider" (change)="onDarkModeChange()">
                     Dark Mode
                 </mat-slide-toggle>
                 <br>
@@ -29,6 +29,10 @@
                 <b>Select roster csv file</b>
                 <br>
                 <input type="file" #file (change)="initializeApp(file.files)">
+                <br>
+                <button mat-raised-button id="generate-roster-button" class="btn info-btn"
+                        (click)="openGenerateRosterPage()">Generate New Roster File
+                </button>
             </mat-card>
         </div>
     </div>
@@ -150,7 +154,7 @@
                 </form>
                 <div *ngIf="hasElevatedPrivileges">
                     <mat-slide-toggle [(ngModel)]="isDarkTheme" class="login-utility-slider"
-                                      (change)="refreshElevatedPrivileges()">
+                                      (change)="refreshElevatedPrivileges(); onDarkModeChange()">
                         Dark Mode
                     </mat-slide-toggle>
                     <br>
