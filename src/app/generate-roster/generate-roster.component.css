@@ -43,6 +43,10 @@
     width: 100%;
 }
 
+.ta-col {
+    padding: 5px;
+}
+
 .ta-card {
     width: 100%;
     text-align: center;

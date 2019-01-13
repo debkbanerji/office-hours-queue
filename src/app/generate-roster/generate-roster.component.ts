@@ -130,7 +130,7 @@ export class GenerateRosterComponent implements OnInit {
                         component.tas.push({
                             name: row[nameIndex],
                             hashedGtid: HashingService.getHash(row[gtidIndex]),
-                            role: row[roleIndex],
+                            role: /ta/gim.test(row[roleIndex]) ? 'T.A.' : 'Teacher',
                             email: row[emailIndex],
                             imageURL: ''
                         });

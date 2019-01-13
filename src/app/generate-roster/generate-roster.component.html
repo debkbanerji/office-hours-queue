@@ -56,10 +56,15 @@
                     <mat-slide-toggle [(ngModel)]="useImages" class="init-slider">
                         Use T.A. Images
                     </mat-slide-toggle>
-                    <br>
+                    &nbsp;
+                    <mat-slide-toggle [(ngModel)]="useLocalImages" class="init-slider" *ngIf="useImages">
+                        Use Local Images
+                    </mat-slide-toggle>
+                    <br *ngIf="useImages && useLocalImages">
+                    <p *ngIf="useImages && useLocalImages">If you're using a locally deployed version of the application, you use local images placed in the <i>assets</i> folder</p>
                 </div>
                 <div class="row">
-                    <div *ngFor="let ta of tas;" class="col col-sm-4">
+                    <div *ngFor="let ta of tas;" class="col col-sm-4 ta-col">
                         <mat-card class="ta-card">
                             <div>
                                 <img class="rounded img-fluid ta-picture" *ngIf="useImages"
@@ -69,6 +74,13 @@
                             <div>
                                 <span class="ta-email">{{ta.email}}</span>
                             </div>
+                            <mat-form-field>
+                                <mat-select [(value)]="ta.role" >
+                                    <mat-option *ngFor="let role of taRoles" [value]="role">
+                                        {{role}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </mat-card>
                     </div>
                 </div>
