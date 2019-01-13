@@ -13,7 +13,9 @@
                     clicking <i>Export Roster</i>.</p>
                 <input type="file" #file (change)="loadCanvasRoster(file.files)">
                 <br>
-                <span class="text-red">{{errorMessage}}</span>
+                <p class="text-red">{{errorMessage}}</p>
+                <button mat-raised-button (click)="openHomePage()">Home
+                </button>
             </mat-card>
         </div>
     </div>
@@ -65,7 +67,7 @@
                         application, you use images placed in the <i>assets</i> folder</p>
                 </div>
                 <div class="row">
-                    <div *ngFor="let ta of tas;" class="col col-sm-4 ta-col">
+                    <div *ngFor="let ta of tas;" class="col col-12 col-sm-6 col-md-4 col-lg-3 ta-col">
                         <mat-card class="ta-card">
                             <div>
                                 <img class="rounded img-fluid ta-picture" *ngIf="useImages"
