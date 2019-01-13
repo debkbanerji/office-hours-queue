@@ -20,8 +20,8 @@ export class GenerateRosterComponent implements OnInit {
         'Yellow': 'yellow-background',
         'Orange': 'orange-background',
         'Pink': 'pink-background',
-        'Purple': 'purple-background',
-        'Lime': 'lime-background'
+        'Purple': 'purple-background'
+        // 'Lime': 'lime-background'
     };
 
     backgroundTintMap = GenerateRosterComponent.backgroundTintMap;
