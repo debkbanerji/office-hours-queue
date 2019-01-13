@@ -13,10 +13,14 @@ export class GenerateRosterComponent implements OnInit {
 
     static generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Email', 'Image-URL', 'Text Color Override', 'Background Tint'];
     static backgroundTintMap = {
+        'None': 'blank-background',
         'Red': 'red-background',
         'Blue': 'blue-background',
-        'Green': 'green-background'
-
+        'Green': 'green-background',
+        'Pink': 'pink-background',
+        'Purple': 'purple-background',
+        'Yellow': 'yellow-background',
+        'Lime': 'lime-background'
     };
 
     backgroundTintMap = GenerateRosterComponent.backgroundTintMap;
