@@ -2,10 +2,19 @@
     <div [ngClass]="{'dark-background': isDarkTheme}"
          id="particles-js-target"></div>
     <div class="row" *ngIf="!isLoading && !rosterInputted">
-        <div class="col-xs-12" id="init-app-container">
-            <mat-card id="init-app-card">
+        <div class="col-xs-12 init-app-container">
+            <mat-card class="init-app-card">
                 <h1 class="init-main-header">Generate Roster File</h1>
+                <p>Select your Canvas Roster CSV File. This can be found by going to the <i>GaTech Roster</i> module and
+                    clicking <i>Export Roster</i>.</p>
+                <input type="file" #file (change)="loadCanvasRoster(file.files)">
+                <br>
+                <span class="text-red">{{errorMessage}}</span>
             </mat-card>
         </div>
+    </div>
+    <div *ngIf="isLoading" id="progress-container">
+        <div id="progress-pad"></div>
+        <mat-progress-spinner mode="indeterminate" id="progress-spinner"></mat-progress-spinner>
     </div>
 </div>

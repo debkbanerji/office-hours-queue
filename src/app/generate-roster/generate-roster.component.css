@@ -3,11 +3,29 @@
     font-size: 28px;
 }
 
-#init-app-container {
+.init-app-container {
     margin: 5px;
     width: 100%;
 }
 
-#init-app-card {
+.init-app-card {
     width: 100%;
+}
+
+
+#progress {
+    text-align: center;
+}
+
+#progress-pad {
+    height: 40vh;
+}
+
+#progress-spinner {
+    display: inline-block;
+}
+
+#progress-spinner {
+    margin: auto;
+    display: block;
 }
