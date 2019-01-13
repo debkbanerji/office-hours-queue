@@ -61,26 +61,37 @@
                         Use Local Images
                     </mat-slide-toggle>
                     <br *ngIf="useImages && useLocalImages">
-                    <p *ngIf="useImages && useLocalImages">If you're using a locally deployed version of the application, you use local images placed in the <i>assets</i> folder</p>
+                    <p *ngIf="useImages && useLocalImages">If you're using a locally deployed version of the
+                        application, you use local images placed in the <i>assets</i> folder</p>
                 </div>
                 <div class="row">
                     <div *ngFor="let ta of tas;" class="col col-sm-4 ta-col">
                         <mat-card class="ta-card">
                             <div>
                                 <img class="rounded img-fluid ta-picture" *ngIf="useImages"
-                                     src="{{ta.imageURL}}">
+                                     src="{{(useLocalImages ? 'assets/' : '') + ta.imageURL}}">
+                                <br>
                                 <span class="ta-name">{{ta.name}}</span>
                             </div>
                             <div>
                                 <span class="ta-email">{{ta.email}}</span>
                             </div>
                             <mat-form-field>
-                                <mat-select [(value)]="ta.role" >
+                                <mat-select [(value)]="ta.role">
                                     <mat-option *ngFor="let role of taRoles" [value]="role">
                                         {{role}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
+                            <form [hidden]="!useImages">
+                                <span *ngIf="useLocalImages">assets/</span>
+                                <mat-form-field>
+                                    <input matInput
+                                           placeholder="{{useLocalImages ? 'Image Path' : 'Image URL'}}"
+                                           [(ngModel)]="ta.imageURL" name="imageURL">
+                                </mat-form-field>
+                                <span *ngIf="useLocalImages">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </form>
                         </mat-card>
                     </div>
                 </div>
