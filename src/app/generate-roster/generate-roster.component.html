@@ -7,7 +7,8 @@
                 <h1 class="init-main-header">Generate Roster File
                     <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider" (change)="onDarkModeChange()">
                         Dark Mode
-                    </mat-slide-toggle></h1>
+                    </mat-slide-toggle>
+                </h1>
                 <p>Select your Canvas Roster CSV File. This can be found by going to the <i>GaTech Roster</i> module and
                     clicking <i>Export Roster</i>.</p>
                 <input type="file" #file (change)="loadCanvasRoster(file.files)">
@@ -36,13 +37,42 @@
                 <h1 class="init-main-header">Finished Generating Roster
                     <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider" (change)="onDarkModeChange()">
                         Dark Mode
-                    </mat-slide-toggle></h1>
+                    </mat-slide-toggle>
+                </h1>
                 <p class="text-red">You should delete the local copy of your raw canvas roster, since it contains
                     unhashed G.T.I.D.s</p>
                 <button mat-raised-button class="btn btn-success" (click)="downloadRoster()">Download Processed Roster
                 </button>
                 <br>
                 <button mat-raised-button class="btn btn-success" id="home-button" (click)="openHomePage()">Home
+                </button>
+            </mat-card>
+        </div>
+        <div class="ta-list-container" *ngIf="!generatedRoster">
+            <mat-card class="init-app-card">
+                <h1 class="init-main-header">T.A.s/Teachers
+                </h1>
+                <div>
+                    <mat-slide-toggle [(ngModel)]="useImages" class="init-slider">
+                        Use T.A. Images
+                    </mat-slide-toggle>
+                    <br>
+                </div>
+                <div class="row">
+                    <div *ngFor="let ta of tas;" class="col col-sm-4">
+                        <mat-card class="ta-card">
+                            <div>
+                                <img class="rounded img-fluid ta-picture" *ngIf="useImages"
+                                     src="{{ta.imageURL}}">
+                                <span class="ta-name">{{ta.name}}</span>
+                            </div>
+                            <div>
+                                <span class="ta-email">{{ta.email}}</span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <button mat-raised-button class="btn btn-success" (click)="generateRoster()">Generate Processed Roster
                 </button>
             </mat-card>
         </div>

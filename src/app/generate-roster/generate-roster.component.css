@@ -37,3 +37,42 @@
 #home-button {
     margin-top: 10px;
 }
+
+.ta-list-container {
+    margin: 0 5px 5px;
+    width: 100%;
+}
+
+.ta-card {
+    width: 100%;
+    text-align: center;
+    margin: 0 0 30px;
+    padding-bottom: 10px;
+}
+
+.ta-picture {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+
+.ta-name {
+    margin-top: 2px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ta-email {
+    margin-top: 2px;
+    font-size: 14px;
+    color: grey;
+}
+
+.ta-large-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.init-slider {
+    margin-bottom: 10px;
+}

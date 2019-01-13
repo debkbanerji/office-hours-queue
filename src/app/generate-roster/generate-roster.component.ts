@@ -62,7 +62,7 @@ export class GenerateRosterComponent implements OnInit {
                 ta['hashedGtid'],
                 ta['role'],
                 ta['email'],
-                'NONE',
+                component.useImages ? (component.useLocalImages ? 'assets/' : '') + ta['imageURL'] : '',
                 'NONE'
             ];
             rows.push(row.join(','));
@@ -131,7 +131,8 @@ export class GenerateRosterComponent implements OnInit {
                             name: row[nameIndex],
                             hashedGtid: HashingService.getHash(row[gtidIndex]),
                             role: row[roleIndex],
-                            email: row[emailIndex]
+                            email: row[emailIndex],
+                            imageURL: ''
                         });
                     }
                 }
