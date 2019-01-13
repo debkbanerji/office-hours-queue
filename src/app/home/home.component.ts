@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
 import {ActivatedRoute, Router} from "@angular/router";
+import {HashingService} from "../hashing.service";
 
 declare let particlesJS: any;
 
@@ -111,10 +112,11 @@ export class HomeComponent implements OnInit {
 
     handleSwipe(inputGTID) {
         const component = this;
-        if (component.studentDirectory[inputGTID]) {
-            component.handleStudentSwipe(inputGTID);
-        } else if (component.taDirectory[inputGTID]) {
-            component.handleTASwipe(inputGTID);
+        const hashedGTID = HashingService.getHash(inputGTID);
+        if (component.studentDirectory[hashedGTID]) {
+            component.handleStudentSwipe(hashedGTID);
+        } else if (component.taDirectory[hashedGTID]) {
+            component.handleTASwipe(hashedGTID);
         } else {
             component.showMessage('GTID not recognized');
         }
@@ -236,7 +238,7 @@ export class HomeComponent implements OnInit {
             const inputGTID = matchContents.substring(6);
             component.handleSwipe(inputGTID);
         } else {
-            if (component.taDirectory[manualGTID]) {
+            if (component.taDirectory[HashingService.getHash(manualGTID)]) {
                 component.handleSwipe(manualGTID);
             } else {
                 component.showMessage('Could not find T.A. G.T.I.D.')
@@ -272,32 +274,30 @@ export class HomeComponent implements OnInit {
                 for (let lineNum = 1; lineNum < csvLines.length; lineNum++) {
                     const line = csvLines[lineNum].replace(/"[^"]*?"/gim, "\"REPLACED\"");
                     const lineSplit = line.split(',');
-                    if (lineSplit.length >= 7) {
-                        if (/student/gim.test(lineSplit[5])) {
-                            component.studentDirectory[lineSplit[2]] = {
-                                name: lineSplit[0]
-                            };
-                        } else if (/(.*t(\.|)a(\.|)$)|(teacher)|(professor)/gim.test(lineSplit[5])) {
-                            component.taDirectory[lineSplit[2]] = {
-                                name: lineSplit[0],
-                                email: lineSplit[1],
-                                nameColor: lineSplit.length > 8 && lineSplit[8] && lineSplit[8].length > 1 ? lineSplit[8] : (
-                                    /(teacher)|(professor)/gim.test(lineSplit[5]) ? '#a6a000' : (
-                                        /head\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#e91e63' : (
-                                            /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[5]) ? '#4882d6'
-                                                : null
-                                        )
+                    if (/student/gim.test(lineSplit[2])) {
+                        component.studentDirectory[lineSplit[1]] = {
+                            name: lineSplit[0]
+                        };
+                    } else if (/(.*t(\.|)a(\.|)$)|(teacher)|(professor)/gim.test(lineSplit[2])) {
+                        component.taDirectory[lineSplit[1]] = {
+                            name: lineSplit[0],
+                            email: lineSplit[3],
+                            nameColor: (lineSplit[5] && lineSplit[5] !== 'NONE') ? lineSplit[5] : (
+                                /(teacher)|(professor)/gim.test(lineSplit[2]) ? '#a6a000' : (
+                                    /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#e91e63' : (
+                                        /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#4882d6'
+                                            : null
                                     )
-                                ),
-                                canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[5]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[5]),
-                                imageURL: lineSplit.length > 7 ? lineSplit[7] : null
-                            };
-                            component.taCheckInTimeMap[lineSplit[2]] = 0;
-                            component.taTotalTimeMap[lineSplit[2]] = 0;
-                            component.taTotalResolvedStudentsMap[lineSplit[2]] = 0;
-                        } else {
-                            console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
-                        }
+                                )
+                            ),
+                            canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[2]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]),
+                            imageURL: (lineSplit[4] && lineSplit[4] !== 'NONE') ? lineSplit[4] : null
+                        };
+                        component.taCheckInTimeMap[lineSplit[1]] = 0;
+                        component.taTotalTimeMap[lineSplit[1]] = 0;
+                        component.taTotalResolvedStudentsMap[lineSplit[1]] = 0;
+                    } else {
+                        console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
                     }
                 }
                 component.isInitializing = false;

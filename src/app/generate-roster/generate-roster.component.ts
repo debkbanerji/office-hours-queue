@@ -62,8 +62,8 @@ export class GenerateRosterComponent implements OnInit {
                 ta['hashedGtid'],
                 ta['role'],
                 ta['email'],
-                '',
-                ''
+                'NONE',
+                'NONE'
             ];
             rows.push(row.join(','));
         }
