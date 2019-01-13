@@ -274,38 +274,42 @@ export class HomeComponent implements OnInit {
             fileReader.readAsText(targetRosterFile, "UTF-8");
             fileReader.onload = function (evt) {
                 const csvLines = fileReader.result.split('\n');
-                for (let lineNum = 1; lineNum < csvLines.length; lineNum++) {
-                    const line = csvLines[lineNum].replace(/"[^"]*?"/gim, "\"REPLACED\"");
-                    const lineSplit = line.split(',');
-                    if (/student/gim.test(lineSplit[2])) {
-                        component.studentDirectory[lineSplit[1]] = {
-                            name: lineSplit[0]
-                        };
-                    } else if (/(.*t(\.|)a(\.|)$)|(teacher)|(professor)/gim.test(lineSplit[2])) {
-                        component.taDirectory[lineSplit[1]] = {
-                            name: lineSplit[0],
-                            email: lineSplit[3],
-                            nameColor: (lineSplit[5] && lineSplit[5] !== 'NONE') ? lineSplit[5] : (
-                                /(teacher)|(professor)/gim.test(lineSplit[2]) ? '#a6a000' : (
-                                    /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#e91e63' : (
-                                        /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#4882d6'
-                                            : null
+                if (csvLines[0] === GenerateRosterComponent.generatedCSVHeaders.join(',')) {
+                    for (let lineNum = 1; lineNum < csvLines.length; lineNum++) {
+                        const line = csvLines[lineNum].replace(/"[^"]*?"/gim, "\"REPLACED\"");
+                        const lineSplit = line.split(',');
+                        if (/student/gim.test(lineSplit[2])) {
+                            component.studentDirectory[lineSplit[1]] = {
+                                name: lineSplit[0]
+                            };
+                        } else if (/(.*t(\.|)a(\.|)$)|(teacher)|(professor)/gim.test(lineSplit[2])) {
+                            component.taDirectory[lineSplit[1]] = {
+                                name: lineSplit[0],
+                                email: lineSplit[3],
+                                nameColor: (lineSplit[5] && lineSplit[5] !== 'NONE') ? lineSplit[5] : (
+                                    /(teacher)|(professor)/gim.test(lineSplit[2]) ? '#a6a000' : (
+                                        /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#e91e63' : (
+                                            /senior\s*t(\.|)a(\.|)/gim.test(lineSplit[2]) ? '#4882d6'
+                                                : null
+                                        )
                                     )
-                                )
-                            ),
-                            canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[2]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]),
-                            imageURL: (lineSplit[4] && lineSplit[4] !== 'NONE') ? lineSplit[4] : null,
-                            backgroundTint: (lineSplit[6] && lineSplit[6] !== 'NONE') ? lineSplit[6] : null
-                        };
-                        component.taCheckInTimeMap[lineSplit[1]] = 0;
-                        component.taTotalTimeMap[lineSplit[1]] = 0;
-                        component.taTotalResolvedStudentsMap[lineSplit[1]] = 0;
-                    } else {
-                        console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
+                                ),
+                                canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[2]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]),
+                                imageURL: (lineSplit[4] && lineSplit[4] !== 'NONE') ? lineSplit[4] : null,
+                                backgroundTint: (lineSplit[6] && lineSplit[6] !== 'NONE') ? lineSplit[6] : null
+                            };
+                            component.taCheckInTimeMap[lineSplit[1]] = 0;
+                            component.taTotalTimeMap[lineSplit[1]] = 0;
+                            component.taTotalResolvedStudentsMap[lineSplit[1]] = 0;
+                        } else {
+                            console.log('Could not classify ' + lineSplit[0] + ' as T.A. or Teacher')
+                        }
                     }
+                    component.appInitialized = true;
+                } else {
+                    component.showMessage('Roster in incorrect format - please generate a new roster');
                 }
                 component.isInitializing = false;
-                component.appInitialized = true;
             };
             fileReader.onerror = function (evt) {
                 component.isInitializing = false;
