@@ -30,7 +30,7 @@
                     </mat-slide-toggle>
                 </h1>
                 <p>Found {{students.length}} students</p>
-                <button mat-raised-button class="btn btn-success" (click)="generateRoster()">Generate Processed Roster
+                <button mat-raised-button color="primary" (click)="generateRoster()">Generate Processed Roster
                 </button>
             </mat-card>
             <mat-card class="init-app-card" *ngIf="generatedRoster">
@@ -44,13 +44,13 @@
                 <button mat-raised-button class="btn btn-success" (click)="downloadRoster()">Download Processed Roster
                 </button>
                 <br>
-                <button mat-raised-button class="btn btn-success" id="home-button" (click)="openHomePage()">Home
+                <button mat-raised-button color="primary" id="home-button" (click)="openHomePage()">Home
                 </button>
             </mat-card>
         </div>
         <div class="ta-list-container" *ngIf="!generatedRoster">
             <mat-card class="init-app-card">
-                <h1 class="init-main-header">T.A.s/Teachers
+                <h1 class="init-main-header">Edit T.A.s/Teachers
                 </h1>
                 <div>
                     <mat-slide-toggle [(ngModel)]="useImages" class="init-slider">
@@ -62,7 +62,7 @@
                     </mat-slide-toggle>
                     <br *ngIf="useImages && useLocalImages">
                     <p *ngIf="useImages && useLocalImages">If you're using a locally deployed version of the
-                        application, you use local images placed in the <i>assets</i> folder</p>
+                        application, you use images placed in the <i>assets</i> folder</p>
                 </div>
                 <div class="row">
                     <div *ngFor="let ta of tas;" class="col col-sm-4 ta-col">
@@ -95,7 +95,7 @@
                         </mat-card>
                     </div>
                 </div>
-                <button mat-raised-button class="btn btn-success" (click)="generateRoster()">Generate Processed Roster
+                <button mat-raised-button color="primary" (click)="generateRoster()">Generate Processed Roster
                 </button>
             </mat-card>
         </div>
