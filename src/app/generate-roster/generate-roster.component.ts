@@ -2,9 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HashingService} from "../hashing.service";
 
-const generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Image-URL', 'Text Color Override'];
-
-// TODO: Test and add background tint
 declare let XLSX: any;
 
 @Component({
@@ -13,6 +10,9 @@ declare let XLSX: any;
     styleUrls: ['./generate-roster.component.css']
 })
 export class GenerateRosterComponent implements OnInit {
+
+    static generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Email', 'Image-URL', 'Text Color Override'];
+    // TODO: Test and add background tint
 
     rosterInputted: boolean = false;
     isLoading: boolean = false;
@@ -53,7 +53,33 @@ export class GenerateRosterComponent implements OnInit {
 
     generateRoster() {
         const component = this;
-        component.processedRoster = 'TODO: generate';
+        const rows = [];
+        rows.push(GenerateRosterComponent.generatedCSVHeaders.join(','));
+        for (let i = 0; i < component.tas.length; i++) {
+            const ta = component.tas[i];
+            const row = [
+                ta['name'],
+                ta['hashedGtid'],
+                ta['role'],
+                ta['email'],
+                '',
+                ''
+            ];
+            rows.push(row.join(','));
+        }
+        for (let i = 0; i < component.students.length; i++) {
+            const student = component.students[i];
+            const row = [
+                student['name'],
+                student['hashedGtid'],
+                'student',
+                '',
+                '',
+                ''
+            ];
+            rows.push(row.join(','));
+        }
+        component.processedRoster = rows.join('\n');
         component.generatedRoster = true;
         component.downloadRoster();
     }
@@ -93,19 +119,19 @@ export class GenerateRosterComponent implements OnInit {
                 const emailIndex = 1;
                 const gtidIndex = 2;
                 const roleIndex = 5;
-                for (let i = 0; i < rows.length; i++) {
+                for (let i = 1; i < rows.length; i++) {
                     const row = rows[i];
                     if (/student/gim.test(row[roleIndex])) {
                         component.students.push({
                             name: row[nameIndex],
-                            encryptedGtid: HashingService.getHash(row[gtidIndex]),
+                            hashedGtid: HashingService.getHash(row[gtidIndex]),
                         });
                     } else {
                         component.tas.push({
                             name: row[nameIndex],
-                            email: row[emailIndex],
-                            encryptedGtid: HashingService.getHash(row[gtidIndex]),
-                            role: row[roleIndex]
+                            hashedGtid: HashingService.getHash(row[gtidIndex]),
+                            role: row[roleIndex],
+                            email: row[emailIndex]
                         });
                     }
                 }
