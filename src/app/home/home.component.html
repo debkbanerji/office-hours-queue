@@ -114,7 +114,7 @@
             </div>
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
-                    <mat-card class="ta-card">
+                    <mat-card class="ta-card" [ngClass]="backgroundTintMap[ta.backgroundTint]">
                         <div *ngIf="ta.imageURL">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">

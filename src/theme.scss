@@ -75,3 +75,15 @@ app-animation-dialog {
 .text-green {
     color: #28A745 !important;
 }
+
+.red-background {
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0.05), rgba(255, 0, 0, 0.05)) !important;
+}
+
+.green-background {
+    background: linear-gradient(to bottom, rgba(0, 255, 0, 0.05), rgba(0, 255, 0, 0.05)) !important;
+}
+
+.blue-background {
+    background: linear-gradient(to bottom, rgba(0, 0, 255, 0.05), rgba(0, 0, 255, 0.05)) !important;
+}

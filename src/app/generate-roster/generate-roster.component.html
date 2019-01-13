@@ -55,6 +55,10 @@
                 <h1 class="init-main-header">Edit T.A.s/Teachers
                 </h1>
                 <div>
+                    <mat-slide-toggle [(ngModel)]="useBackgroundTint" class="init-slider">
+                        Use Background Tint
+                    </mat-slide-toggle>
+                    &nbsp;
                     <mat-slide-toggle [(ngModel)]="useImages" class="init-slider">
                         Use T.A. Images
                     </mat-slide-toggle>
@@ -68,7 +72,8 @@
                 </div>
                 <div class="row">
                     <div *ngFor="let ta of tas;" class="col col-12 col-sm-6 col-md-4 col-lg-3 ta-col">
-                        <mat-card class="ta-card">
+                        <mat-card class="ta-card"
+                                  [ngClass]="backgroundTintMap[ta.backgroundTint] + (useBackgroundTint ? '' : 'UNSET')">
                             <div>
                                 <img class="rounded img-fluid ta-picture" *ngIf="useImages"
                                      src="{{(useLocalImages ? 'assets/' : '') + ta.imageURL}}">
@@ -82,6 +87,13 @@
                                 <mat-select [(value)]="ta.role">
                                     <mat-option *ngFor="let role of taRoles" [value]="role">
                                         {{role}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field [hidden]="!useBackgroundTint">
+                                <mat-select [(value)]="ta.backgroundTint">
+                                    <mat-option *ngFor="let backgroundTint of backgroundTintKeys" [value]="backgroundTint">
+                                        {{backgroundTint}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>

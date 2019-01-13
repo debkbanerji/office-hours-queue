@@ -4,6 +4,7 @@ import {MatDialog, MatSnackBar} from "@angular/material";
 import {TimeInfoDialogComponent} from "../dialogs/time-info-dialog/time-info-dialog.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HashingService} from "../hashing.service";
+import {GenerateRosterComponent} from "../generate-roster/generate-roster.component";
 
 declare let particlesJS: any;
 
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
     messageDurationMilliseconds = 2000;
     privilegesTimeoutMilliseconds = 10000;
     version = environment.VERSION;
+    backgroundTintMap = GenerateRosterComponent.backgroundTintMap;
     isDarkTheme: boolean = false;
     showParticles: boolean = false;
     LOGO_URL = '/assets/images/Buzz.png';
@@ -166,7 +168,8 @@ export class HomeComponent implements OnInit {
                 nameColor: taToAdd.nameColor,
                 gtid: gtid,
                 startTime: Date.now(),
-                imageURL: taToAdd.imageURL
+                imageURL: taToAdd.imageURL,
+                backgroundTint: taToAdd.backgroundTint
             });
             component.showMessage(taToAdd.name + ' is now on duty');
             if (component.trackStats) {
@@ -291,7 +294,8 @@ export class HomeComponent implements OnInit {
                                 )
                             ),
                             canViewAllTimeData: /(teacher)|(professor)/gim.test(lineSplit[2]) || /head\s*t(\.|)a(\.|)/gim.test(lineSplit[2]),
-                            imageURL: (lineSplit[4] && lineSplit[4] !== 'NONE') ? lineSplit[4] : null
+                            imageURL: (lineSplit[4] && lineSplit[4] !== 'NONE') ? lineSplit[4] : null,
+                            backgroundTint: (lineSplit[6] && lineSplit[6] !== 'NONE') ? lineSplit[6] : null
                         };
                         component.taCheckInTimeMap[lineSplit[1]] = 0;
                         component.taTotalTimeMap[lineSplit[1]] = 0;

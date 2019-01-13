@@ -11,13 +11,23 @@ declare let XLSX: any;
 })
 export class GenerateRosterComponent implements OnInit {
 
-    static generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Email', 'Image-URL', 'Text Color Override'];
-    // TODO: Test and add background tint
+    static generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Email', 'Image-URL', 'Text Color Override', 'Background Tint'];
+    static backgroundTintMap = {
+        'Red': 'red-background',
+        'Blue': 'blue-background',
+        'Green': 'green-background'
+
+    };
+
+    backgroundTintMap = GenerateRosterComponent.backgroundTintMap;
+    backgroundTintKeys = Object.keys(GenerateRosterComponent.backgroundTintMap);
+
 
     rosterInputted: boolean = false;
     isLoading: boolean = false;
     generatedRoster: boolean = false;
     useImages: boolean = false;
+    useBackgroundTint: boolean = false;
     useLocalImages: boolean = false;
     isDarkTheme: boolean = false;
     errorMessage: string = null;
@@ -63,7 +73,8 @@ export class GenerateRosterComponent implements OnInit {
                 ta['role'],
                 ta['email'],
                 component.useImages ? (component.useLocalImages ? 'assets/' : '') + ta['imageURL'] : 'NONE',
-                'NONE'
+                'NONE',
+                component.useBackgroundTint ? (ta.backgroundTint) : 'NONE'
             ];
             rows.push(row.join(','));
         }
@@ -73,6 +84,7 @@ export class GenerateRosterComponent implements OnInit {
                 student['name'],
                 student['hashedGtid'],
                 'student',
+                '',
                 '',
                 '',
                 ''
@@ -132,7 +144,8 @@ export class GenerateRosterComponent implements OnInit {
                             hashedGtid: HashingService.getHash(row[gtidIndex]),
                             role: /ta/gim.test(row[roleIndex]) ? 'T.A.' : 'Teacher',
                             email: row[emailIndex],
-                            imageURL: ''
+                            imageURL: '',
+                            backgroundTint: component.backgroundTintKeys[Math.floor(Math.random() * component.backgroundTintKeys.length)]
                         });
                     }
                 }
