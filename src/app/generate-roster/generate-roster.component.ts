@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {HashingService} from "../hashing.service";
 
 const generatedCSVHeaders = ['Name', 'Hashed GTID', 'Role', 'Image-URL', 'Text Color Override'];
 
@@ -15,6 +16,7 @@ export class GenerateRosterComponent implements OnInit {
 
     rosterInputted: boolean = false;
     isLoading: boolean = false;
+    generatedRoster: boolean = false;
     useImages: boolean = false;
     useLocalImages: boolean = false;
     isDarkTheme: boolean = false;
@@ -23,6 +25,9 @@ export class GenerateRosterComponent implements OnInit {
 
     students = [];
     tas = [];
+
+    processedRoster: string = null;
+    taRoles = ['Teacher', 'Head T.A.', 'Senior T.A.', 'T.A.'];
 
     constructor(
         private router: Router,
@@ -38,12 +43,43 @@ export class GenerateRosterComponent implements OnInit {
         });
     }
 
-    openHomeRosterPage() {
+    openHomePage() {
         this.router.navigate(['/'], {queryParams: {'dark-mode': this.isDarkTheme}});
     }
 
     onDarkModeChange() {
         this.router.navigate(['/generate-roster'], {queryParams: {'dark-mode': this.isDarkTheme}});
+    }
+
+    generateRoster() {
+        const component = this;
+        component.processedRoster = 'TODO: generate';
+        component.generatedRoster = true;
+        component.downloadRoster();
+    }
+
+    downloadRoster() {
+        const component = this;
+        const blob = new Blob([component.processedRoster], {type: 'text/csv'});
+        const dataURL = window.URL.createObjectURL(blob);
+
+        // IE doesn't allow using a blob object directly as link href
+        // instead it is necessary to use msSaveOrOpenBlob
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob);
+
+        }
+
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'Office Hours Roster.csv';
+        link.click();
+
+        setTimeout(() => {
+
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            window.URL.revokeObjectURL(dataURL);
+        }, 100);
     }
 
     loadCanvasRoster(filesInput: FileList) {
@@ -52,8 +88,27 @@ export class GenerateRosterComponent implements OnInit {
         const inputRosterFile = filesInput[0];
         component.isLoading = true;
         if (inputRosterFile && /.*\.xlsx$/gim.test(inputRosterFile.name)) {
-            const onSheetLoaded = function (json) {
-                console.log(json);
+            const onSheetLoaded = function (rows) {
+                const nameIndex = 0;
+                const emailIndex = 1;
+                const gtidIndex = 2;
+                const roleIndex = 5;
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (/student/gim.test(row[roleIndex])) {
+                        component.students.push({
+                            name: row[nameIndex],
+                            encryptedGtid: HashingService.getHash(row[gtidIndex]),
+                        });
+                    } else {
+                        component.tas.push({
+                            name: row[nameIndex],
+                            email: row[emailIndex],
+                            encryptedGtid: HashingService.getHash(row[gtidIndex]),
+                            role: row[roleIndex]
+                        });
+                    }
+                }
                 component.isLoading = false;
                 component.rosterInputted = true;
             };
@@ -63,8 +118,7 @@ export class GenerateRosterComponent implements OnInit {
                 on: {
                     sheet: onSheetLoaded,
                 },
-                errors: {
-                }
+                errors: {}
             })
         } else {
             component.isLoading = false;

@@ -29,3 +29,11 @@
     margin: auto;
     display: block;
 }
+
+.dark-mode-slider {
+    float: right;
+}
+
+#home-button {
+    margin-top: 10px;
+}
