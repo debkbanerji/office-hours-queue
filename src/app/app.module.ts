@@ -9,6 +9,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTableModule,
@@ -19,9 +20,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import 'hammerjs';
 import {TimeInfoDialogComponent} from './dialogs/time-info-dialog/time-info-dialog.component';
+import {GenerateRosterComponent} from './generate-roster/generate-roster.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
+    {path: 'generate-roster', component: GenerateRosterComponent},
     {path: '**', redirectTo: '', pathMatch: 'full'} // Default route
 ];
 
@@ -29,7 +32,8 @@ const routes: Routes = [
     declarations: [
         AppComponent,
         HomeComponent,
-        TimeInfoDialogComponent
+        TimeInfoDialogComponent,
+        GenerateRosterComponent
     ],
     imports: [
         BrowserModule,
@@ -41,6 +45,7 @@ const routes: Routes = [
         MatFormFieldModule,
         MatProgressSpinnerModule,
         MatInputModule,
+        MatSelectModule,
         MatSlideToggleModule,
         MatSnackBarModule,
         MatTableModule,

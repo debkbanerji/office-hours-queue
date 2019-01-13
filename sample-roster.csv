@@ -1,9 +1,0 @@
-Name,Email,GTID,gtAccount,Major,Role,Section,Picture (Optional),Text Color Override (Optional)
-Fake Student,student@gatech.edu,902345678,fakestudent9,us/c/cs/bscs/a/cs,Student,201808/CS/1331/C04/85827,,
-Deb Banerji,notmyrealemail@gatech.edu,903444888,dbanerji11,us/c/cs/bscs/a/cs,Student,201808/CS/1331/A03/88423,,
-Iron Man,tstark3@gatech.edu,903111222,tstark3,"us/c/cs/bscs/a/cs,robotics",Professor,201808/CS/1331/A03/88423,https://upload.wikimedia.org/wikipedia/en/e/e0/Iron_Man_bleeding_edge.jpg,
-Captain America,srogers3@gatech.edu,903111223,srogers3,us/c/cs/bscs/a/cs,Head TA,201808/CS/1331/A03/88423,,
-The Incredible Hulk,bbanner3@gatech.edu,903111224,bbanner3,us/c/cs/bscs/a/cs,Senior TA,201808/CS/1331/A03/88423,,
-The Mighty Thor,todinson3@gatech.edu,903111225,"todinson3,other,testingcommas","us/c/cs/bscs/a/cs,thunder,hammers",TA,201808/CS/1331/A03/88423,,
-Black Widow,todinson3@gatech.edu,903111226,"todinson3,other,testingcommas","us/c/cs/bscs/a/cs,thunder,hammers",TA,201808/CS/1331/A03/88423,,red
-Hawkeye,todinson3@gatech.edu,903111227,"todinson3,other,testingcommas","us/c/cs/bscs/a/cs,thunder,hammers",TA,201808/CS/1331/A03/88423,,#0000FF

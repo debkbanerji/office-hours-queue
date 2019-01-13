@@ -1,0 +1,118 @@
+<div [ngClass]="{'dark-theme': isDarkTheme}" class="main-content-container">
+    <div [ngClass]="{'dark-background': isDarkTheme}"
+         id="particles-js-target"></div>
+    <div class="row" *ngIf="!isLoading && !rosterInputted">
+        <div class="col-xs-12 init-app-container">
+            <mat-card class="init-app-card">
+                <h1 class="init-main-header">Generate Roster File
+                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider" (change)="onDarkModeChange()">
+                        Dark Mode
+                    </mat-slide-toggle>
+                </h1>
+                <p>Select your Canvas Roster xlsx File. This can be found by going to the <i>GaTech Roster</i> module and
+                    clicking <i>Export Roster</i>.</p>
+                <input type="file" #file (change)="loadCanvasRoster(file.files)">
+                <br>
+                <p class="text-red">{{errorMessage}}</p>
+                <button mat-raised-button (click)="openHomePage()">Home
+                </button>
+            </mat-card>
+        </div>
+    </div>
+    <div *ngIf="isLoading" id="progress-container">
+        <div id="progress-pad"></div>
+        <mat-progress-spinner mode="indeterminate" id="progress-spinner"></mat-progress-spinner>
+    </div>
+    <div class="row" *ngIf="!isLoading && rosterInputted">
+        <div class="col-xs-12 init-app-container">
+            <mat-card class="init-app-card" *ngIf="!generatedRoster">
+                <h1 class="init-main-header">Parsed Canvas XLSX
+                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider" (change)="onDarkModeChange()">
+                        Dark Mode
+                    </mat-slide-toggle>
+                </h1>
+                <p>Found {{students.length}} students</p>
+                <button mat-raised-button color="primary" (click)="generateRoster()">Generate Processed Roster
+                </button>
+            </mat-card>
+            <mat-card class="init-app-card" *ngIf="generatedRoster">
+                <h1 class="init-main-header">Finished Generating Roster
+                    <mat-slide-toggle [(ngModel)]="isDarkTheme" class="dark-mode-slider" (change)="onDarkModeChange()">
+                        Dark Mode
+                    </mat-slide-toggle>
+                </h1>
+                <p class="text-red">You should delete the local copy of your raw canvas roster, since it contains
+                    unhashed G.T.I.D.s</p>
+                <button mat-raised-button class="btn btn-success" (click)="downloadRoster()">Download Processed Roster
+                </button>
+                <br>
+                <button mat-raised-button color="primary" id="home-button" (click)="openHomePage()">Home
+                </button>
+            </mat-card>
+        </div>
+        <div class="ta-list-container" *ngIf="!generatedRoster">
+            <mat-card class="init-app-card">
+                <h1 class="init-main-header">Edit T.A.s/Teachers
+                </h1>
+                <div>
+                    <mat-slide-toggle [(ngModel)]="useBackgroundTint" class="init-slider">
+                        Use Background Tint
+                    </mat-slide-toggle>
+                    &nbsp;
+                    <mat-slide-toggle [(ngModel)]="useImages" class="init-slider">
+                        Use T.A. Images
+                    </mat-slide-toggle>
+                    &nbsp;
+                    <mat-slide-toggle [(ngModel)]="useLocalImages" class="init-slider" *ngIf="useImages">
+                        Use Local Images
+                    </mat-slide-toggle>
+                    <br *ngIf="useImages && useLocalImages">
+                    <p *ngIf="useImages && useLocalImages">If you're using a locally deployed version of the
+                        application, you use images placed in the <i>assets</i> folder</p>
+                </div>
+                <div class="row">
+                    <div *ngFor="let ta of tas;" class="col col-12 col-sm-6 col-md-4 col-lg-3 ta-col">
+                        <mat-card class="ta-card"
+                                  [ngClass]="backgroundTintMap[ta.backgroundTint] + (useBackgroundTint ? '' : 'UNSET')">
+                            <div>
+                                <img class="rounded img-fluid ta-picture" *ngIf="useImages"
+                                     src="{{(useLocalImages ? 'assets/' : '') + ta.imageURL}}">
+                                <br>
+                                <span class="ta-name">{{ta.name}}</span>
+                            </div>
+                            <div>
+                                <span class="ta-email">{{ta.email}}</span>
+                            </div>
+                            <mat-form-field>
+                                <mat-select [(value)]="ta.role">
+                                    <mat-option *ngFor="let role of taRoles" [value]="role">
+                                        {{role}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field [hidden]="!useBackgroundTint">
+                                <mat-select [(value)]="ta.backgroundTint">
+                                    <mat-option *ngFor="let backgroundTint of backgroundTintKeys" [value]="backgroundTint">
+                                        {{backgroundTint}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <form [hidden]="!useImages">
+                                <span *ngIf="useLocalImages">assets/</span>
+                                <mat-form-field>
+                                    <input matInput
+                                           placeholder="{{useLocalImages ? 'Image Path' : 'Image URL'}}"
+                                           [(ngModel)]="ta.imageURL" name="imageURL">
+                                </mat-form-field>
+                                <span *ngIf="useLocalImages">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </form>
+                        </mat-card>
+                    </div>
+                </div>
+                <br>
+                <button mat-raised-button color="primary" (click)="generateRoster()">Generate Processed Roster
+                </button>
+            </mat-card>
+        </div>
+    </div>
+</div>

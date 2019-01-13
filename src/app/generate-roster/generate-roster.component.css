@@ -1,0 +1,82 @@
+.init-main-header {
+    margin-top: 6px;
+    font-size: 28px;
+}
+
+.init-app-container {
+    margin: 5px;
+    width: 100%;
+}
+
+.init-app-card {
+    width: 100%;
+}
+
+
+#progress {
+    text-align: center;
+}
+
+#progress-pad {
+    height: 40vh;
+}
+
+#progress-spinner {
+    display: inline-block;
+}
+
+#progress-spinner {
+    margin: auto;
+    display: block;
+}
+
+.dark-mode-slider {
+    float: right;
+}
+
+#home-button {
+    margin-top: 10px;
+}
+
+.ta-list-container {
+    margin: 0 5px 5px;
+    width: 100%;
+}
+
+.ta-col {
+    padding: 5px;
+}
+
+.ta-card {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.ta-picture {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+
+.ta-name {
+    margin-top: 2px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ta-email {
+    margin-top: 2px;
+    font-size: 14px;
+    color: grey;
+}
+
+.ta-large-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.init-slider {
+    margin-bottom: 10px;
+}
