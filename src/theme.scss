@@ -88,18 +88,21 @@ app-animation-dialog {
     background: linear-gradient(to bottom, rgba(0, 0, 255, 0.05), rgba(0, 0, 255, 0.05)) !important;
 }
 
+.yellow-background {
+    background: linear-gradient(to bottom, rgba(255, 240, 0, 0.05), rgba(255, 240, 0, 0.05)) !important;
+}
+
 .purple-background {
     background: linear-gradient(to bottom, rgba(149, 0, 255, 0.05), rgba(149, 0, 255, 0.05)) !important;
+}
+
+.orange-background {
+    background: linear-gradient(to bottom, rgba(212, 143, 0, 0.05), rgba(212, 143, 0, 0.05)) !important;
 }
 
 .pink-background {
     background: linear-gradient(to bottom, rgba(212, 0, 166, 0.05), rgba(212, 0, 166, 0.05)) !important;
 }
-
-.yellow-background {
-    background: linear-gradient(to bottom, rgba(255, 240, 0, 0.05), rgba(255, 240, 0, 0.05)) !important;
-}
-
 .lime-background {
     background: linear-gradient(to bottom, rgba(64, 212, 0, 0.05), rgba(64, 212, 0, 0.05)) !important;
 }

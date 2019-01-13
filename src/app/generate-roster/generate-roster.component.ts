@@ -17,9 +17,10 @@ export class GenerateRosterComponent implements OnInit {
         'Red': 'red-background',
         'Blue': 'blue-background',
         'Green': 'green-background',
+        'Yellow': 'yellow-background',
+        'Orange': 'orange-background',
         'Pink': 'pink-background',
         'Purple': 'purple-background',
-        'Yellow': 'yellow-background',
         'Lime': 'lime-background'
     };
 
