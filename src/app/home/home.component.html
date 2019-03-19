@@ -79,7 +79,7 @@
                      [ngClass]="{'col-md-6': studentQueue.length > studentMaxSingleColumnLength,
                                  'even-student-col': (studentQueue.length > studentMaxSingleColumnLength) && i % 2 === 0}">
                     <mat-card class="student-card">
-                        <span class="student-name">{{student.number}}. {{student.name}}</span>
+                        <span class="student-number">{{student.number}}</span> <span class="student-name">. {{student.name}}</span>
                         <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
                             <button mat-raised-button
                                     class="btn btn-default edit-queue-btn"

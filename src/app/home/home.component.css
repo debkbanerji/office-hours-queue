@@ -97,8 +97,13 @@
     display: inline-block;
 }
 
+.student-number {
+    font-weight: 600;
+    font-size: 20px;
+}
+
 .student-name {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 20px;
 }
 
