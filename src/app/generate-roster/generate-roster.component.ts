@@ -153,6 +153,7 @@ export class GenerateRosterComponent implements OnInit {
                             backgroundTint: component.backgroundTintKeys[Math.floor(Math.random() * component.backgroundTintKeys.length)]
                         });
                     }
+                    console.log('Encrypted entry ' + (i + 1) + ' of ' + rows.length);
                 }
                 component.isLoading = false;
                 component.rosterInputted = true;
