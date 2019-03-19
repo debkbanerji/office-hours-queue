@@ -53,7 +53,9 @@ export class HomeComponent implements OnInit {
 
     taManualGTID: string = null;
 
-    studentHideLength: number = 16;
+    showTAPictures: boolean = true;
+    showFullQueue: boolean = true;
+    studentHideLength: number = 14;
     studentMaxSingleColumnLength: number = 7;
 
     constructor(public snackBar: MatSnackBar,

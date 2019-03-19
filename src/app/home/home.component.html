@@ -54,13 +54,26 @@
                     Office Hours Queue</span>
             </div>
             <mat-card class="student-card" *ngIf="!disableAddStudents || hasElevatedPrivileges">
-                <div>
-                    <mat-slide-toggle [(ngModel)]="disableAddStudents" *ngIf="hasElevatedPrivileges">
+                <p class="num-students-text">
+                    <span
+                        *ngIf="!showFullQueue && studentQueue.length > studentHideLength">Showing <span
+                        class="num-students-num">{{studentHideLength}}</span>
+                        of </span><span class="num-students-num">{{studentQueue.length}}</span> student<span
+                    *ngIf="studentQueue.length !== 1">s</span>
+                    in queue
+                </p>
+                <div *ngIf="hasElevatedPrivileges">
+                    <mat-slide-toggle [(ngModel)]="showFullQueue">
+                        Show Full Queue
+                    </mat-slide-toggle>
+                    &nbsp;
+                    <mat-slide-toggle [(ngModel)]="disableAddStudents">
                         Disable new additions
                     </mat-slide-toggle>
+
                 </div>
-                <b class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard or enter your name
-                    to add yourself to the queue</b>
+                <div class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard or enter your name
+                    to add yourself to the queue</div>
                 <form (ngSubmit)="addCustomStudent()" #studentNameForm="ngForm">
                     <mat-form-field>
                         <input matInput placeholder="{{hasElevatedPrivileges ? 'Student' : 'Your'}} name"
@@ -75,11 +88,14 @@
                 </form>
             </mat-card>
             <div class="row">
-                <div *ngFor="let student of studentQueue; let i = index" class="col col-12 student-card-col"
-                     [ngClass]="{'col-md-6': studentQueue.length > studentMaxSingleColumnLength,
+                <div
+                    *ngFor="let student of studentQueue | slice: 0 : (showFullQueue ? studentQueue.length : studentHideLength); let i = index"
+                    class="col col-12 student-card-col"
+                    [ngClass]="{'col-md-6': studentQueue.length > studentMaxSingleColumnLength,
                                  'even-student-col': (studentQueue.length > studentMaxSingleColumnLength) && i % 2 === 0}">
                     <mat-card class="student-card">
-                        <span class="student-number">{{student.number}}</span> <span class="student-name">. {{student.name}}</span>
+                        <span class="student-number">{{student.number}}</span> <span
+                        class="student-name">. {{student.name}}</span>
                         <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
                             <button mat-raised-button
                                     class="btn btn-default edit-queue-btn"
@@ -117,12 +133,12 @@
             <div class="ta-list-container row">
                 <div *ngFor="let ta of taDutyList; let i = index" class="col col-sm-6">
                     <mat-card class="ta-card" [ngClass]="backgroundTintMap[ta.backgroundTint]">
-                        <div *ngIf="ta.imageURL">
+                        <div *ngIf="ta.imageURL && showTAPictures">
                             <img class="rounded img-fluid ta-picture"
                                  src="{{ta.imageURL}}">
                             <span class="ta-name" [style.color]="ta.nameColor">{{ta.name}}</span>
                         </div>
-                        <div *ngIf="!ta.imageURL">
+                        <div *ngIf="!(ta.imageURL && showTAPictures)">
                             <span class="ta-name" [style.color]="ta.nameColor">{{ta.name}}</span>
                         </div>
                         <div>
@@ -155,6 +171,11 @@
                     </button>
                 </form>
                 <div *ngIf="hasElevatedPrivileges">
+                    <mat-slide-toggle [(ngModel)]="showTAPictures" class="login-utility-slider"
+                                      (change)="refreshElevatedPrivileges();">
+                        Show T.A. Pictures
+                    </mat-slide-toggle>
+                    <br>
                     <mat-slide-toggle [(ngModel)]="isDarkTheme" class="login-utility-slider"
                                       (change)="refreshElevatedPrivileges(); onDarkModeChange()">
                         Dark Mode

@@ -158,9 +158,20 @@
     width: 33%;
 }
 
-.buzzcard-instruction {
+.num-students-text {
     margin-bottom: 8px;
     font-size: large;
+    font-weight: 400;
+}
+
+.num-students-num {
+    font-weight: 600;
+}
+
+.buzzcard-instruction {
+    margin-bottom: 0;
+    font-size: large;
+    font-weight: 400;
 }
 
 .empty-queue-label {
