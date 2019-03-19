@@ -14,11 +14,12 @@ export class HashingService {
     }
 
     static getName(hashedName, gtid) {
-        return sjcl.encrypt(gtid, hashedName);
+        const hashJson = sjcl.codec.utf8String.fromBits(sjcl.codec.base64.toBits(hashedName));
+        return sjcl.decrypt(gtid, hashJson);
     }
 
     static getNameHash(name, gtid) {
-        return sjcl.decrypt(gtid, name);
+        return sjcl.codec.base64.fromBits(sjcl.codec.utf8String.toBits(sjcl.encrypt(gtid, name)));
     }
 
 }

@@ -86,7 +86,7 @@ export class GenerateRosterComponent implements OnInit {
         for (let i = 0; i < component.students.length; i++) {
             const student = component.students[i];
             const row = [
-                student['name'],
+                student['encryptedName'],
                 student['hashedGtid'],
                 'student',
                 '',
@@ -140,7 +140,7 @@ export class GenerateRosterComponent implements OnInit {
                     const row = rows[i];
                     if (/student/gim.test(row[roleIndex])) {
                         component.students.push({
-                            name: row[nameIndex],
+                            encryptedName: HashingService.getNameHash(row[nameIndex], row[gtidIndex]),
                             hashedGtid: HashingService.getGTIDHash(row[gtidIndex])
                         });
                     } else {

@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit {
         const component = this;
         const hashedGTID = HashingService.getGTIDHash(inputGTID);
         if (component.studentDirectory[hashedGTID]) {
-            component.handleStudentSwipe(hashedGTID);
+            component.handleStudentSwipe(inputGTID, hashedGTID);
         } else if (component.taDirectory[hashedGTID]) {
             component.handleTASwipe(hashedGTID);
         } else {
@@ -192,14 +192,14 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    handleStudentSwipe(gtid: string) {
+    handleStudentSwipe(gtid: string, hashedGTID: string) {
         const component = this;
         if (component.disableAddStudents) {
             component.showMessage('Queue is currently closed - cannot add student')
         } else {
             let studentIndex = -1;
             for (let i = 0; i < component.studentQueue.length; i++) {
-                if (component.studentQueue[i].gtid === gtid) {
+                if (component.studentQueue[i].gtid === hashedGTID) {
                     studentIndex = i;
                     break;
                 }
@@ -208,15 +208,17 @@ export class HomeComponent implements OnInit {
                 const removedStudent = component.studentQueue[studentIndex];
                 if (Date.now() - removedStudent.startTime > component.doubleSwipeWindow) {
                     component.studentQueue.splice(studentIndex, 1);
-                    component.showMessage(removedStudent.name + ' removed from queue');
+                    component.showMessage(HashingService.getName(removedStudent.hashedName, gtid) + ' removed from queue');
                 }
             } else {
+                const studentName = HashingService.getName(component.studentDirectory[hashedGTID].name, gtid);
                 component.studentQueue.push({
-                    name: component.studentDirectory[gtid].name,
-                    gtid: gtid,
+                    name: studentName,
+                    hashedName: component.studentDirectory[hashedGTID].name,
+                    gtid: hashedGTID,
                     startTime: Date.now()
                 });
-                component.showMessage(component.studentDirectory[gtid].name + ' added to queue');
+                component.showMessage(studentName + ' added to queue');
                 if (component.studentQueue.length === component.studentHideLength + 1) {
                     component.showFullQueue = false;
                 }
