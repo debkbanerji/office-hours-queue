@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
 
     handleSwipe(inputGTID) {
         const component = this;
-        const hashedGTID = HashingService.getHash(inputGTID);
+        const hashedGTID = HashingService.getGTIDHash(inputGTID);
         if (component.studentDirectory[hashedGTID]) {
             component.handleStudentSwipe(hashedGTID);
         } else if (component.taDirectory[hashedGTID]) {
@@ -263,7 +263,7 @@ export class HomeComponent implements OnInit {
             const inputGTID = matchContents.substring(6);
             component.handleSwipe(inputGTID);
         } else {
-            if (component.taDirectory[HashingService.getHash(manualGTID)]) {
+            if (component.taDirectory[HashingService.getGTIDHash(manualGTID)]) {
                 component.handleSwipe(manualGTID);
             } else {
                 component.showMessage('Could not find T.A. G.T.I.D.')

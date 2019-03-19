@@ -141,12 +141,12 @@ export class GenerateRosterComponent implements OnInit {
                     if (/student/gim.test(row[roleIndex])) {
                         component.students.push({
                             name: row[nameIndex],
-                            hashedGtid: HashingService.getHash(row[gtidIndex]),
+                            hashedGtid: HashingService.getGTIDHash(row[gtidIndex])
                         });
                     } else {
                         component.tas.push({
                             name: row[nameIndex],
-                            hashedGtid: HashingService.getHash(row[gtidIndex]),
+                            hashedGtid: HashingService.getGTIDHash(row[gtidIndex]),
                             role: /ta/gim.test(row[roleIndex]) ? 'T.A.' : 'Teacher',
                             email: row[emailIndex],
                             imageURL: '',
