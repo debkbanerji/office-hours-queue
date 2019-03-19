@@ -81,6 +81,14 @@
     margin-right: 4px;
 }
 
+.student-card-col {
+    padding: 0;
+}
+
+.even-student-col {
+    padding-right: 6px;
+}
+
 .student-card {
     width: 100%;
     margin: 2px;

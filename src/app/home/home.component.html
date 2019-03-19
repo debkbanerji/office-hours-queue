@@ -76,29 +76,33 @@
                     </button>
                 </form>
             </mat-card>
-            <div *ngFor="let student of studentQueue; let i = index">
-                <mat-card class="student-card">
-                    <span class="student-name">{{student.name}}</span>
-                    <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
-                        <button mat-raised-button
-                                class="btn btn-default edit-queue-btn"
-                                *ngIf="i < studentQueue.length - 1"
-                                (click)="moveStudentDown(i)">
-                            ▼
-                        </button>
-                        <button mat-raised-button
-                                class="btn btn-default edit-queue-btn"
-                                *ngIf="i > 0"
-                                (click)="moveStudentUp(i)">
-                            ▲
-                        </button>
-                        <button mat-raised-button
-                                class="btn btn-success edit-queue-btn"
-                                (click)="removeStudent(i)">
-                            Resolve
-                        </button>
-                    </div>
-                </mat-card>
+            <div class="row">
+                <div *ngFor="let student of studentQueue; let i = index" class="col col-12 student-card-col"
+                     [ngClass]="{'col-md-6': studentQueue.length > studentMaxSingleColumnLength,
+                                 'even-student-col': (studentQueue.length > studentMaxSingleColumnLength) && i % 2 === 0}">
+                    <mat-card class="student-card">
+                        <span class="student-name">{{student.name}}</span>
+                        <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
+                            <button mat-raised-button
+                                    class="btn btn-default edit-queue-btn"
+                                    *ngIf="i < studentQueue.length - 1"
+                                    (click)="moveStudentDown(i)">
+                                ▼
+                            </button>
+                            <button mat-raised-button
+                                    class="btn btn-default edit-queue-btn"
+                                    *ngIf="i > 0"
+                                    (click)="moveStudentUp(i)">
+                                ▲
+                            </button>
+                            <button mat-raised-button
+                                    class="btn btn-success edit-queue-btn"
+                                    (click)="removeStudent(i)">
+                                Resolve
+                            </button>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
             <div *ngIf="studentQueue.length === 0">
                 <br>

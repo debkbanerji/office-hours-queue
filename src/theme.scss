@@ -103,6 +103,11 @@ app-animation-dialog {
 .pink-background {
     background: linear-gradient(to bottom, rgba(212, 0, 166, 0.04), rgba(212, 0, 166, 0.04)) !important;
 }
+
 .lime-background {
     background: linear-gradient(to bottom, rgba(64, 212, 0, 0.04), rgba(64, 212, 0, 0.04)) !important;
+}
+
+body {
+    overflow-x: hidden;
 }

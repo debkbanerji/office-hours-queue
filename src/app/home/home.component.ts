@@ -53,6 +53,9 @@ export class HomeComponent implements OnInit {
 
     taManualGTID: string = null;
 
+    studentHideLength:number = 16;
+    studentMaxSingleColumnLength: number = 7;
+
     constructor(public snackBar: MatSnackBar,
                 public dialog: MatDialog,
                 private router: Router,
