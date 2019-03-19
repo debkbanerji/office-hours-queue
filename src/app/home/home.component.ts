@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit {
     showTAPictures: boolean = true;
     showFullQueue: boolean = true;
     studentHideLength: number = 14;
+    taPictureHideLength: number = 4;
     studentMaxSingleColumnLength: number = 7;
 
     constructor(public snackBar: MatSnackBar,
@@ -185,6 +186,9 @@ export class HomeComponent implements OnInit {
             if (component.trackStats) {
                 component.taCheckInTimeMap[gtid] = Date.now()
             }
+            if (component.taDutyList.length === component.taPictureHideLength + 1) {
+                component.showTAPictures = false;
+            }
         }
     }
 
@@ -212,7 +216,10 @@ export class HomeComponent implements OnInit {
                     gtid: gtid,
                     startTime: Date.now()
                 });
-                component.showMessage(component.studentDirectory[gtid].name + ' added to queue')
+                component.showMessage(component.studentDirectory[gtid].name + ' added to queue');
+                if (component.studentQueue.length === component.studentHideLength + 1) {
+                    component.showFullQueue = false;
+                }
             }
             component.reNumberStudents();
         }
@@ -236,6 +243,9 @@ export class HomeComponent implements OnInit {
                 startTime: Date.now()
             });
             component.showMessage(nameToAdd + ' added to queue');
+            if (component.studentQueue.length === component.studentHideLength + 1) {
+                component.showFullQueue = false;
+            }
         }
         component.customStudentName = '';
         component.reNumberStudents();
@@ -372,6 +382,9 @@ export class HomeComponent implements OnInit {
         }
         component.taDutyList = component.removeAtIndex(this.taDutyList, index);
         component.refreshElevatedPrivileges();
+        if (component.taDutyList.length <= component.taPictureHideLength) {
+            component.showTAPictures = true;
+        }
     }
 
     public removeAtIndex(arr, index) {
