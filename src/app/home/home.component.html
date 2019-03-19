@@ -42,18 +42,16 @@
     </div>
     <div class="row" *ngIf="appInitialized">
         <div class="col col-sm-8">
-            <div>
-                <span class="main-header">
-                    <img class="logo" src="{{LOGO_URL}}">
-                    <span class="class-name-edit-container" *ngIf="hasElevatedPrivileges">
+            <div class="main-header">
+                <img class="logo" src="{{LOGO_URL}}">
+                <span class="class-name-edit-container" *ngIf="hasElevatedPrivileges">
                         <mat-form-field>
                             <input matInput placeholder="Class name (optional)" [(ngModel)]="className" name="className"
                                    (ngModelChange)="classNameChange()">
                         </mat-form-field>
                     </span>
-                    <span class="main-header-text">{{hasElevatedPrivileges ? null : className}}
-                        Office Hours Queue</span>
-                </span>
+                <span class="main-header-text">{{hasElevatedPrivileges ? null : className}}
+                    Office Hours Queue</span>
             </div>
             <mat-card class="student-card" *ngIf="!disableAddStudents || hasElevatedPrivileges">
                 <div>
@@ -81,7 +79,7 @@
                      [ngClass]="{'col-md-6': studentQueue.length > studentMaxSingleColumnLength,
                                  'even-student-col': (studentQueue.length > studentMaxSingleColumnLength) && i % 2 === 0}">
                     <mat-card class="student-card">
-                        <span class="student-name">{{student.name}}</span>
+                        <span class="student-name">{{student.number}}. {{student.name}}</span>
                         <div class="edit-queue-control" *ngIf="hasElevatedPrivileges">
                             <button mat-raised-button
                                     class="btn btn-default edit-queue-btn"

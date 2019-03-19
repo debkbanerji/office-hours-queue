@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 
     taManualGTID: string = null;
 
-    studentHideLength:number = 16;
+    studentHideLength: number = 16;
     studentMaxSingleColumnLength: number = 7;
 
     constructor(public snackBar: MatSnackBar,
@@ -162,10 +162,15 @@ export class HomeComponent implements OnInit {
         }
         if (taIndex >= 0) {
             component.currentlyElevatedGTID = gtid;
-            component.refreshElevatedPrivileges()
+            for (let i = taIndex; i > 0; i--) {
+                const temp = component.taDutyList[i - 1];
+                component.taDutyList[i - 1] = component.taDutyList[i];
+                component.taDutyList[i] = temp;
+            }
+            component.refreshElevatedPrivileges();
         } else {
             let taToAdd = component.taDirectory[gtid];
-            component.taDutyList.push({
+            component.taDutyList.unshift({
                 name: taToAdd.name,
                 email: taToAdd.email,
                 nameColor: taToAdd.nameColor,
@@ -197,7 +202,7 @@ export class HomeComponent implements OnInit {
                 const removedStudent = component.studentQueue[studentIndex];
                 if (Date.now() - removedStudent.startTime > component.doubleSwipeWindow) {
                     component.studentQueue.splice(studentIndex, 1);
-                    component.showMessage(removedStudent.name + ' removed from queue')
+                    component.showMessage(removedStudent.name + ' removed from queue');
                 }
             } else {
                 component.studentQueue.push({
@@ -207,6 +212,7 @@ export class HomeComponent implements OnInit {
                 });
                 component.showMessage(component.studentDirectory[gtid].name + ' added to queue')
             }
+            component.reNumberStudents();
         }
     }
 
@@ -230,6 +236,7 @@ export class HomeComponent implements OnInit {
             component.showMessage(nameToAdd + ' added to queue');
         }
         component.customStudentName = '';
+        component.reNumberStudents();
     }
 
     addTAUsingGTID() {
@@ -334,11 +341,13 @@ export class HomeComponent implements OnInit {
     public moveStudentUp(index) {
         this.switchElements(this.studentQueue, index, index - 1);
         this.refreshElevatedPrivileges();
+        this.reNumberStudents();
     }
 
     public moveStudentDown(index) {
         this.switchElements(this.studentQueue, index, index + 1);
         this.refreshElevatedPrivileges();
+        this.reNumberStudents();
     }
 
     public removeStudent(index) {
@@ -347,6 +356,7 @@ export class HomeComponent implements OnInit {
             component.taTotalResolvedStudentsMap[component.currentlyElevatedGTID] += 1;
         }
         component.studentQueue = component.removeAtIndex(component.studentQueue, index);
+        component.reNumberStudents();
         component.refreshElevatedPrivileges();
     }
 
@@ -365,6 +375,13 @@ export class HomeComponent implements OnInit {
     public removeAtIndex(arr, index) {
         arr.splice(index, 1);
         return arr
+    }
+
+    public reNumberStudents() {
+        const component = this;
+        for (let i = 0; i < component.studentQueue.length; i++) {
+            component.studentQueue[i].number = i + 1;
+        }
     }
 
     public switchElements = function (arr, i1, i2) {

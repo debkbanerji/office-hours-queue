@@ -1,6 +1,7 @@
 .main-header {
     margin-top: 6px;
     margin-left: 6px;
+    min-height: 70px;
 }
 
 .main-header-text {
