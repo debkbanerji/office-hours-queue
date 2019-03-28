@@ -67,17 +67,29 @@
                     in queue
                 </p>
                 <div *ngIf="hasElevatedPrivileges">
-                    <mat-slide-toggle [(ngModel)]="showFullQueue">
+                    <mat-slide-toggle [(ngModel)]="disableAddStudents" (change)="refreshElevatedPrivileges()">
+                        Disable new additions
+                    </mat-slide-toggle>
+                    &nbsp;
+                    <mat-slide-toggle [(ngModel)]="showFullQueue" (change)="refreshElevatedPrivileges()">
                         Show Full Queue
                     </mat-slide-toggle>
                     &nbsp;
-                    <mat-slide-toggle [(ngModel)]="disableAddStudents">
-                        Disable new additions
-                    </mat-slide-toggle>
-
+                    <mat-form-field *ngIf="!showFullQueue">
+                        <input
+                            matInput
+                            type="number"
+                            name="studentHideLength"
+                            [(ngModel)]="studentHideLength"
+                            placeholder="Overflow Hide Length"
+                            min="10" max="30" step="2"
+                            (change)="validateStudentHideLength(); refreshElevatedPrivileges()"
+                        />
+                    </mat-form-field>
                 </div>
                 <div class="buzzcard-instruction" *ngIf="!hasElevatedPrivileges">Swipe your BuzzCard or enter your name
-                    to add yourself to the queue</div>
+                    to add yourself to the queue
+                </div>
                 <form (ngSubmit)="addCustomStudent()" #studentNameForm="ngForm">
                     <mat-form-field>
                         <input matInput placeholder="{{hasElevatedPrivileges ? 'Student' : 'Your'}} name"

@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     bufferSize = 16;
     minBufferCheckLength = 13;
     doubleSwipeWindow = 2000;
-    messageDurationMilliseconds = 2000;
+    messageDurationMilliseconds = 4000;
     privilegesTimeoutMilliseconds = 10000;
     version = environment.VERSION;
     backgroundTintMap = GenerateRosterComponent.backgroundTintMap;
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
     taManualGTID: string = null;
 
     showTAPictures: boolean = true;
-    showFullQueue: boolean = true;
+    showFullQueue: boolean = false;
     studentHideLength: number = 14;
     taPictureHideLength: number = 4;
     studentMaxSingleColumnLength: number = 7;
@@ -406,6 +406,14 @@ export class HomeComponent implements OnInit {
         arr[i1] = arr[i2];
         arr[i2] = temp;
     };
+
+    public validateStudentHideLength() {
+        let studentHideLength = this.studentHideLength;
+        studentHideLength = Math.round(studentHideLength);
+        studentHideLength = Math.max(10, studentHideLength);
+        studentHideLength = Math.min(30, studentHideLength);
+        this.studentHideLength = studentHideLength;
+    }
 
     openTimeInfoDialog(): void {
         const component = this;
