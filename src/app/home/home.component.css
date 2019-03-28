@@ -174,7 +174,7 @@
     font-weight: 400;
 }
 
-.empty-queue-label {
+.queue-end-label {
     color: grey;
     margin-left: 6px;
 }

@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
     showTAPictures: boolean = true;
     showFullQueue: boolean = false;
-    studentHideLength: number = 14;
+    studentHideLength: number = 12;
     taPictureHideLength: number = 4;
     studentMaxSingleColumnLength: number = 7;
 

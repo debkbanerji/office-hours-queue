@@ -136,10 +136,14 @@
             </div>
             <div *ngIf="studentQueue.length === 0">
                 <br>
-                <p class="empty-queue-label">No students in queue</p>
+                <p class="queue-end-label">No students in queue</p>
             </div>
             <div *ngIf="disableAddStudents">
-                <p class="empty-queue-label">Currently not accepting additions to queue</p>
+                <p class="queue-end-label">Currently not accepting additions to queue</p>
+            </div>
+            <div *ngIf="!showFullQueue && studentQueue.length > studentHideLength">
+                <p class="queue-end-label">{{studentQueue.length - studentHideLength}} additional
+                    student{{studentQueue.length - studentHideLength === 1 ? '' : 's'}} not shown</p>
             </div>
         </div>
         <div class="col col-sm-4">
